@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<br>
+<br>
+<br>
+{% if images%}
+<table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Date Processed</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        {% for i in images: %}
+        <tr>
+            <td>{{i.imageName}}</td>
+            <td>{{i.imageDate}}</td>
+            <td>{{i.imageDateProc}}</td>
+            <td><a class="btn btn-info"href="/showImage/{{i.index}}">Watch</a></td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+{% else %}
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 bg-warning warning_mesagge">
+            <label>There are no images yet.</label>
+        </div>
+        <div class="col-md-3"></div>
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}
