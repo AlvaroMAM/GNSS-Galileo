@@ -1,0 +1,45 @@
+<html>
+    <head>
+		<link href="/static/style.css">
+	</head>
+<body>
+	<ul>
+		<li><a href="/home" class="{{ a1 }}">Todos los juegos</a></li>
+		<li><a href="/misJuegos" class="{{ a2 }}">Mis juegos</a></li>
+	</ul>
+	<hr>
+	{% if juegos[0] %}
+	<b><big>Lista de juegos :</big></b>
+	<table>
+	    <tr id="row">
+	    	<th class="nombre">Nombre</th>
+	    	<th class="creador">Creador</th>
+	    	<th class="estado">Estado</th>
+			<th class="fecha_fin">Fecha límite</th>
+			<th class="participantes">Participantes</th>
+		<th class="func1">Detalles</th>
+		<th class="func2">Inscribirse</th>
+	    </tr>
+	{% for juego in juegos %}
+		<tr class="datas">
+			<td class="nombre">{{ juego["nombre"] }}</td>
+			<td class="creador">{{ juego["creador"] }}</td>
+			<td class="estado">{{ juego["estado"] }}</td>
+			<td class="fecha_fin">{{ juego["fecha_fin"] }}</td>
+			<td class="participantes">{{ juego["participantes"] }}</td>
+			<td class="func1"><a href="./juego?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
+			<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>
+		</tr>
+	{% endfor %}
+	</table>
+	{% else %}
+		<h4>No hay juegos abiertos actualmente.</h4>
+	{% endif %}
+	<hr/>
+	
+	</table>
+	<script>
+
+	</script>
+</body>
+</html>

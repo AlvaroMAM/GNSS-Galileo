@@ -5,16 +5,22 @@ import json
 import numpy as np
 from cv2 import cv2
 from bson import json_util
-import aux
+from pymongo import MongoClient
+#import aux
 import base64
 
 app = Flask(__name__)
 
-currentUser = aux.User("","")
+client = MongoClient("mongodb://127.0.0.1:27017")
+db = client.tesorodb
+juegos = db.juego
+usuarios = db.usuario
+
+currentUser = "user"#aux.User("","")
 myImages = []
 @app.route('/')
 def index():
-    return render_template("index.html",user=currentUser)
+    return render_template("index.html")
 
 @app.route('/logout')
 def logout():
@@ -84,7 +90,20 @@ def images ():
     else:
         return redirect('/')
 
+# Pagina principal con todos los juegos
+@app.route("/home")
+def games ():
+	#Mostrar todos los juegos abiertos
+	list_juegos = juegos.find()
+	estado_juego="activo"
+	return render_template('home.html',estado=estado_juego,juegos=list_juegos)
 
+@app.route("/misJuegos")
+def myGames ():
+	#Mostrar los juegos abiertos del usuario
+	list_juegos = juegos.find({"creador":currentUser})
+	estado_juego="activo"
+	return render_template('home.html',estado=estado_juego,juegos=list_juegos)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=6001, debug=True)
