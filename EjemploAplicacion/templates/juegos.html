@@ -4,7 +4,7 @@
 	</head>
 <body>
 	<ul>
-		<li><a href="/home" class="{{ a1 }}">Todos los juegos</a></li>
+		<li><a href="/juegos" class="{{ a1 }}">Todos los juegos</a></li>
 		<li><a href="/misJuegos" class="{{ a2 }}">Mis juegos</a></li>
 	</ul>
 	<hr>
@@ -26,8 +26,8 @@
 			<td class="creador">{{ juego["creador"] }}</td>
 			<td class="estado">{{ juego["estado"] }}</td>
 			<td class="fecha_fin">{{ juego["fecha_fin"] }}</td>
-			<td class="participantes">{{ juego["participantes"] }}</td>
-			<td class="func1"><a href="./juego?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
+			<td class="participantes">{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
+			<td class="func1"><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
 			<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>
 		</tr>
 	{% endfor %}
@@ -38,8 +38,5 @@
 	<hr/>
 	
 	</table>
-	<script>
-
-	</script>
 </body>
 </html>
