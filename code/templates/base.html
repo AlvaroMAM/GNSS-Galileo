@@ -6,15 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <meta name="description" content=""></meta>
         <meta name="author" content=""> </meta>
-        
-       
-
-
         <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="/static/css/style.css" rel="stylesheet"/>
         <title>La Caza del Tesoro</title>
-          
-
     </head>
 
     <body>
@@ -34,7 +28,6 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         {%if user %}
-                        
                             <li>
                                 <a href="/juegos"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Juegos</a>
                             </li>
@@ -42,7 +35,7 @@
                                 <a href="/misJuegos"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Mis Juegos</a>
                             </li>
                             <li>
-                                <a href="/perfil"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Mis Juegos</a>
+                                <a href="/perfil"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Mi perfil</a>
                             </li>  
                             <li>  
                                 <a href="javascript:logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;LogOut</a>

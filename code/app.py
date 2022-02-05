@@ -63,11 +63,12 @@ def login():
     if userName and userEmail:
         results = usersCollection.count_documents({'userEmail': userEmail})
         if results <=0:
-            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False})
+            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False. 'juegosParticipados': []})
             if response:
                 current_user.setEmail(userEmail)
                 current_user.setUserName(userName)
                 current_user.setIsAdmin(False)
+                current_user.setJuegosParticipados([])
                 return Response(response=json.dumps({"Message": "Correct insertion"}),
                             status=200,
                             mimetype='application/json')
@@ -76,8 +77,13 @@ def login():
                             status=400,
                             mimetype='application/json')
         else:
-            #Extraer Estado del Jugador (sus juegos creados y juegos en los que participa)
-            print(results)
+            user = usersCollection.find({'userEmail': userEmail})
+            current_user.setEmail(user.email)
+            current_user.setUserName(user.username)
+            current_user.setIsAdmin(user.isAdmin)
+            current_user.setJuegosParticipados(user.juegosParticipados)
+            mygames = juegosCollection.find('creator': user.email)
+            current_user.setMisJuegos(mygames)
             return Response(response=json.dumps({"Message": "User is already registered"}),
                             status=200,
                             mimetype='application/json')
@@ -94,9 +100,10 @@ def logout():
 
 @app.route('/delete')
 def delete():
+    #Falta eliminar los juegos creados por este usuario y eliminar su participación
     email = request.form['userEmail']
     if email:
-        response = collection2.delete_one({'userEmail': email})
+        response = current_user.delete_one({'userEmail': email})
         if response:
             currentUser.disconnect()
             return redirect('/')
@@ -110,8 +117,8 @@ def delete():
 #Datos del Perfil
 @app.route('/perfil')
 def profile():
-    if(currentUser.getEmail()):
-        return render_template("profile.html",user=currentUser)
+    if(current_user.getEmail()):
+        return render_template("profile.html",user=current_user)
     else:
         return redirect('/')
 

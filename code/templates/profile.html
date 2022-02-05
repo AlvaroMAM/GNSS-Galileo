@@ -23,7 +23,7 @@
                 {% if user.isAdmin %}
                 <div class="form-group">
                     <div class="text-center">
-                        <label><strong>You are an Administrator, you can't delete your account</strong></label>
+                        <label><strong>Posees una cuenta de administrador, no puedes eliminar esta cuenta</strong></label>
                     </div>
                 </div>  
                 {% else %}
@@ -36,30 +36,86 @@
     </div>
     <div class="row">
         <div>
-            <button type="button" class="btn btn-success" onclick="showCreatorTable()">Creador</button>
-            <button type="button" class="btn btn-success" onclick="showCompetitorTable()">Participante</button>
+            <label> Mis Juegos </label>
+            <input type="checkbox" checked data-toggle="toggle" data-onstyle="danger" onclick="showCreatorTable()">
+            <label> Mis Participaciones </label>
+            <input type="checkbox" checked data-toggle="toggle" data-onstyle="danger" onclick="showCompetitorTable()">
         </div>
-        <div id="mis Juegos" class="table-responsive">
-            <table class="table table-striped">
-                <tr id="row">
-                    <th class="nombre">Nombre</th>
-                    <th class="creador">Creador</th>
-                    <th class="estado">Estado</th>
-                    <th class="fecha_fin">Fecha límite</th>
-                    <th class="participantes">Participantes</th>
-                    <th class="func1">Detalles</th>
-                    <th class="func2">Inscribirse</th>
-                </tr>
+        <div  class="table-responsive">
+            {% if user.misJuegos %}
+                <table id="misJuegos" class="table table-striped">
+                    <thead>
+                        <tr id="row">
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Fecha límite</th>
+                            <th>Participantes</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for juego in user.misJuegos %}
+                        <tr>
+                            <td>{{ juego["nombre"] }}</td>
+                            <td>{{ juego["estado"] }}</td>
+                            <td>{{ juego["fecha_fin"] }}</td>
+                            <td>{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
+                            <td><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            {% else %}
+                No Has Creado Ningún Juego
+            {% endif %}
+            {% if user.juegosParticipados %}
+            <table id="juegosParticipados" class="table table-striped" style="display: none;">
+                <thead>
+                    <tr id="row">
+                        <th>Nombre</th>
+                        <th>Creador</th>
+                        <th>Estado</th>
+                        <th>Fecha límite</th>
+                        <th>Participantes</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for juego in user.juegosParticipados %}
+                    <tr>
+                        <td>{{ juego["nombre"] }}</td>
+                        <td>{{ juego["creador"] }}</td>
+                        <td>{{ juego["estado"] }}</td>
+                        <td>{{ juego["fecha_fin"] }}</td>
+                        <td>{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
+                        <td><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
+                    </tr>
+                </tbody>
+                
             </table>
+        {% else %}
+            No te has unido a ningún juego
+        {% endif %}
+
         </div>
     </div>
 {% endif %}
 <script>
     function showCompetitorTable () {
-
+        var x = document.getElementById("juegosParticipados");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
     function showCreatorTable() {
-
+        var x = document.getElementById("misJuegos");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
 </script>
 {% endblock content %}

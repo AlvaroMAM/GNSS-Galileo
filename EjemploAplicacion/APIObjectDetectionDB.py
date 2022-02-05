@@ -73,7 +73,6 @@ def writeImage():
 def writeUser():
     userName = request.form['userName']
     userEmail = request.form['userEmail']
-
     if userName and userEmail:
         results = collection2.count_documents({'userEmail': userEmail})
         if results <=0:

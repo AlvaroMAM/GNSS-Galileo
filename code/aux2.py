@@ -1,26 +1,9 @@
-import requests
-TESTING_URL ='http://127.0.0.1:5001/'
-
-
-"""
-    def getMyGames(self):
-        return self.my_games
-
-    def setMyGames(self,my_games):
-        self.my_games = my_games
-
-    def getPlayingGames(self):
-        return self.playing_games
-
-    def setPlayingGames(self,playing_games):
-        self.playing_games = playing_games
-"""
 class User:
-    def __init__(self,name,email,isAdmin):
+    def __init__(self,name,email,isAdmin,playing_games, my_games):
         self.userName= name
         self.userEmail=email
-        #self.my_games = games
-        #self.playing_games = playing_games
+        self.juegosParticipados = playing_games
+        self.misJuegos = my_games
         self.isAdmin = isAdmin
 
     def getUserName(self):
@@ -34,6 +17,18 @@ class User:
 
     def setEmail(self,email):
         self.userEmail = email
+    
+    def setJuegosParticipados(self,juegos):
+        self.juegosParticipados = juegos
+    
+    def getJuegosParticipados(self):
+        return self.juegosParticipados
+    
+    def setMisJuegos(self, mygames):
+        self.misJuegos = mygames
+    
+    def getMisJuegos(self):
+        return self.misJuegos
 
     def setIsAdmin(self, isAdmin):
         self.isAdmin = isAdmin
