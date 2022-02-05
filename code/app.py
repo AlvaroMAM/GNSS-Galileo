@@ -16,7 +16,7 @@ proyectoDB = client['Proyecto']
 juegosCollection = proyectoDB['juegos']
 usersCollection = proyectoDB['usuarios']
 
-current_user = aux.User("","",False)
+current_user = aux.User("","",False, [],[])
 
 @app.route('/')
 def index():
@@ -25,9 +25,22 @@ def index():
 # Pagina principal con todos los juegos
 @app.route("/juegos")
 def games ():
-	#Mostrar todos los juegos
-    list_juegos = juegosCollection.find()
+    #Juegos participando
+    participando= juegosCollection.find({ })
+	#Mostrar todos los juegos excepto los del user
+    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
     return render_template('juegos.html',juegos=list_juegos,user=current_user)
+
+"""
+@app.route("/misJuegos")
+def myGames ():
+	#Mostrar los juegos abiertos del usuario
+    userEmail = current_user.getEmail()
+	list_juegos = juegosCollection.find({"creador":userEmail})
+	estado_juego="activo"
+	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos)
+"""
+
 
 # Detalles del juego
 @app.route("/detalles")
@@ -82,15 +95,6 @@ def writeGame():
                         status=400,
                         mimetype='application/json')
 
-"""
-@app.route("/misJuegos")
-def myGames ():
-	#Mostrar los juegos abiertos del usuario
-    userEmail = current_user.getEmail()
-	list_juegos = juegosCollection.find({"creador":userEmail})
-	estado_juego="activo"
-	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos)
-"""
 
 #-------------User Control----------------------#
 #Login
@@ -102,7 +106,7 @@ def login():
     if userName and userEmail:
         results = usersCollection.count_documents({'userEmail': userEmail})
         if results <=0:
-            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False. 'juegosParticipados': []})
+            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False, 'juegosParticipados': []})
             if response:
                 current_user.setEmail(userEmail)
                 current_user.setUserName(userName)
@@ -121,7 +125,7 @@ def login():
             current_user.setUserName(user.username)
             current_user.setIsAdmin(user.isAdmin)
             current_user.setJuegosParticipados(user.juegosParticipados)
-            mygames = juegosCollection.find('creator': user.email)
+            mygames = juegosCollection.find({'creator': user.email})
             current_user.setMisJuegos(mygames)
             return Response(response=json.dumps({"Message": "User is already registered"}),
                             status=200,
