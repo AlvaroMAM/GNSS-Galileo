@@ -28,18 +28,16 @@ def games ():
     #Juegos participando
     participando= juegosCollection.find({ })
 	#Mostrar todos los juegos excepto los del user
+    estado_juego="activo"
     list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
-    return render_template('juegos.html',juegos=list_juegos,user=current_user)
+    return render_template('juegos.html',estado=estado_juego,juegos=list_juegos,user=current_user, verBotonInscribirse=True)
 
-"""
 @app.route("/misJuegos")
 def myGames ():
 	#Mostrar los juegos abiertos del usuario
-    userEmail = current_user.getEmail()
-	list_juegos = juegosCollection.find({"creador":userEmail})
+	list_juegos = juegosCollection.find({"creador": { "$eq" :current_user.userEmail}})
 	estado_juego="activo"
-	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos)
-"""
+	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos, verBotonInscribirse=False)
 
 
 # Detalles del juego
