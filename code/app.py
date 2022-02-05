@@ -16,7 +16,7 @@ proyectoDB = client['Proyecto']
 juegosCollection = proyectoDB['juegos']
 usersCollection = proyectoDB['usuarios']
 
-current_user = aux.User("","",False)
+current_user = aux.User("","",False,[],[])
 
 @app.route('/')
 def index():
@@ -63,13 +63,17 @@ def writeGame():
     descripcionpista = request.form['inputPista']
     imagen = request.form['inputImagen']
     creador = current_user.getEmail()
+    list_juegos = juegosCollection.find()
+    insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
+         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho,'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY,
+         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
 
     if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and coordenadaX and coordenadaY and descripcionpista and imagen:
-        response = juegosCollection.insert_one({'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
-         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho,'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY,
-         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"})
+        response = juegosCollection.insert_one(insercion)
+        usersCollection.update_one( {"userEmail": creador}, 
+                                    {"$push": {"juegosParticipados": insercion }} )
         if response:
-            return render_template('juegos.html')
+            return render_template('juegos.html',juegos=list_juegos,user=current_user)
             """Response(response=json.dumps({"Message": "Correct insertion"}),
                         status=200,
                         mimetype='application/json')"""
@@ -102,7 +106,7 @@ def login():
     if userName and userEmail:
         results = usersCollection.count_documents({'userEmail': userEmail})
         if results <=0:
-            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False. 'juegosParticipados': []})
+            response = usersCollection.insert_one({'userName':userName, 'userEmail': userEmail, 'isAdmin': False, 'juegosParticipados': []})
             if response:
                 current_user.setEmail(userEmail)
                 current_user.setUserName(userName)
@@ -116,12 +120,13 @@ def login():
                             status=400,
                             mimetype='application/json')
         else:
-            user = usersCollection.find({'userEmail': userEmail})
-            current_user.setEmail(user.email)
-            current_user.setUserName(user.username)
-            current_user.setIsAdmin(user.isAdmin)
-            current_user.setJuegosParticipados(user.juegosParticipados)
-            mygames = juegosCollection.find('creator': user.email)
+            usuarios = usersCollection.find({'userEmail': userEmail})
+            user = usuarios[0]
+            current_user.setEmail(user["userEmail"])
+            current_user.setUserName(user["userName"])
+            current_user.setIsAdmin(user["isAdmin"])
+            current_user.setJuegosParticipados(user["juegosParticipados"])
+            mygames = juegosCollection.find({'creator': user["userEmail"]})
             current_user.setMisJuegos(mygames)
             return Response(response=json.dumps({"Message": "User is already registered"}),
                             status=200,
@@ -157,6 +162,14 @@ def delete():
 @app.route('/perfil')
 def profile():
     if(current_user.getEmail()):
+        usuarios = usersCollection.find({'userEmail': current_user.getEmail()})
+        user = usuarios[0]
+        current_user.setEmail(user["userEmail"])
+        current_user.setUserName(user["userName"])
+        current_user.setIsAdmin(user["isAdmin"])
+        current_user.setJuegosParticipados(user["juegosParticipados"])
+        mygames = juegosCollection.find({'creador': user["userEmail"]})
+        current_user.setMisJuegos(mygames)
         return render_template("profile.html",user=current_user)
     else:
         return redirect('/')
