@@ -25,9 +25,22 @@ def index():
 # Pagina principal con todos los juegos
 @app.route("/juegos")
 def games ():
-	#Mostrar todos los juegos
-    list_juegos = juegosCollection.find()
+    #Juegos participando
+    participando= juegosCollection.find({ })
+	#Mostrar todos los juegos excepto los del user
+    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
     return render_template('juegos.html',juegos=list_juegos,user=current_user)
+
+"""
+@app.route("/misJuegos")
+def myGames ():
+	#Mostrar los juegos abiertos del usuario
+    userEmail = current_user.getEmail()
+	list_juegos = juegosCollection.find({"creador":userEmail})
+	estado_juego="activo"
+	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos)
+"""
+
 
 # Detalles del juego
 @app.route("/detalles")
@@ -86,15 +99,6 @@ def writeGame():
                         status=400,
                         mimetype='application/json')
 
-"""
-@app.route("/misJuegos")
-def myGames ():
-	#Mostrar los juegos abiertos del usuario
-    userEmail = current_user.getEmail()
-	list_juegos = juegosCollection.find({"creador":userEmail})
-	estado_juego="activo"
-	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos)
-"""
 
 #-------------User Control----------------------#
 #Login
