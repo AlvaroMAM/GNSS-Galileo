@@ -1,0 +1,66 @@
+{%extends "base.html"%}
+{% block content %}
+<br/>
+<br/>
+<br/>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Crear juego </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form action="/saveGame" method="POST">
+                <div class="form-group">
+                    <label for="inputNombre" class="col-sm-3 control-label">Nombre</label>
+                    <input type="text" class="form-control" name="inputNombre" id="inputNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputDescripcion" class="col-sm-3 control-label">Descripción</label>
+                    <input type="text" class="form-control" name="inputDescripcion" id="inputDescripcion">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaInicio" class="col-sm-3 control-label">Fecha inicio</label>
+                    <input type="date" class="form-control" name="inputFechaInicio" id="inputFechaInicio">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaFin" class="col-sm-3 control-label">Fecha fin</label>
+                    <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin">
+                </div>
+                <h3>Área:</h3>
+                <div class="form-group">
+                    <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
+                    <input type="number" class="form-control" name="inputCentro" id="inputCentro">
+                </div>
+                <div class="form-group">
+                    <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
+                    <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                </div>
+                <div class="form-group">
+                    <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
+                    <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                </div>
+                <h3>Tesoros:</h3>
+                <div class="form-group">
+                    <label for="inputCoordenadaX" class="col-sm-3 control-label">Coordenada X</label>
+                    <input type="number" class="form-control" name="inputCoordenadaX" id="inputCoordenadaX">
+                </div>
+                <div class="form-group">
+                    <label for="inputCoordenadaY" class="col-sm-3 control-label">Coordenada Y</label>
+                    <input type="number" class="form-control" name="inputCoordenadaY" id="inputCoordenadaY">
+                </div>
+                <h3>Pistas:</h3>
+                <div class="form-group">
+                    <label for="inputPista" class="col-sm-3 control-label">Descripción</label>
+                    <input type="text" class="form-control" name="inputPista" id="inputPista">
+                </div>
+                <div class="form-group">
+                    <label for="inputImagen" class="col-sm-3 control-label">Imágen</label>
+                    <input type="file" class="form-control" name="inputImagen" id="inputImagen">
+                </div>
+                <button type="submit" class="btn btn-primary">Crear juego</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
