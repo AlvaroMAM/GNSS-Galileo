@@ -33,11 +33,20 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        {%if user.userEmail %}
-                        <li>		
-                            <a href="javascript:logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;LogOut</a>
-                            
-                        </li>
+                        {%if user %}
+                        
+                            <li>
+                                <a href="/juegos"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Juegos</a>
+                            </li>
+                            <li>
+                                <a href="/misJuegos"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Mis Juegos</a>
+                            </li>
+                            <li>
+                                <a href="/perfil"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Mis Juegos</a>
+                            </li>  
+                            <li>  
+                                <a href="javascript:logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;LogOut</a>
+                            </li>
                         {% endif %}
                     
                      
@@ -75,17 +84,17 @@
 
         <script>
         // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyAsscWbP6XmqlRYTU--oGL843AdmT8SmfE",
-            authDomain: "webtfg-fb498.firebaseapp.com",
-            databaseURL: "https://webtfg-fb498.firebaseio.com",
-            projectId: "webtfg-fb498",
-            storageBucket: "webtfg-fb498.appspot.com",
-            messagingSenderId: "765902418404",
-            appId: "1:765902418404:web:f857dbed651a8ec71817f1"
+        const firebaseConfig = {
+            apiKey: "AIzaSyCynzLTpykBnqz8JgZyAH-0xDbhRcitB4s",
+            authDomain: "treasure-hunting-masterinf-uma.firebaseapp.com",
+            projectId: "treasure-hunting-masterinf-uma",
+            storageBucket: "treasure-hunting-masterinf-uma.appspot.com",
+            messagingSenderId: "351585383835",
+            appId: "1:351585383835:web:9e7bedf19b265a749a1d3e"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        //const app = initializeApp(firebaseConfig);
         </script>
 
 
@@ -130,7 +139,7 @@
                         {
                         if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             
-                            window.location.href = "http://127.0.0.1:6001/images";
+                            window.location.href = "http://127.0.0.1:6001/juegos";
                         } 
                         }
                         req.open('POST', 'http://127.0.0.1:6001/login', true);
