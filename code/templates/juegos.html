@@ -1,7 +1,8 @@
 {% extends "base.html"%}
 {% block content %}
 	<hr>
-	<a href="/crearjuego"><button type="submit" class="btn btn-primary">Crear juego</button></a>
+	</br>
+	<a href="/crearjuego"><button type="submit" class=" btn btn-primary">Crear juego</button></a>
 	{% if juegos[0] %}
 	<b><big>Lista de juegos :</big></b>
 	<div class="table-responsive">
@@ -10,7 +11,7 @@
 				<th class="nombre">Nombre</th>
 				<th class="creador">Creador</th>
 				<th class="estado">Estado</th>
-				<th class="fecha_fin">Fecha límite</th>
+				<th class="fechaFin">Fecha límite</th>
 				<th class="participantes">Participantes</th>
 				<th class="func1">Detalles</th>
 				<th class="func2">Inscribirse</th>
@@ -20,7 +21,7 @@
 					<td class="nombre">{{ juego["nombre"] }}</td>
 					<td class="creador">{{ juego["creador"] }}</td>
 					<td class="estado">{{ juego["estado"] }}</td>
-					<td class="fecha_fin">{{ juego["fecha_fin"] }}</td>
+					<td class="fechaFin">{{ juego["fechaFin"] }}</td>
 					<td class="participantes">{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
 					<td class="func1"><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
 					<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>

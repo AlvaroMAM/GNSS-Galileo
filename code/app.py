@@ -43,7 +43,44 @@ def details ():
     #mongodb update
     return render_template('inscribir.html',juego=current_juego)
 
-    
+# Crear un juego
+@app.route("/crearjuego", methods=['GET','POST'])
+def creacionjuego():
+    return render_template('crearjuego.html')
+
+# Guardar un juego
+@app.route('/saveGame', methods=['GET','POST'])
+def writeGame():
+    nombre = request.form["inputNombre"]
+    descripcion = request.form['inputDescripcion']
+    fechaInicio = request.form['inputFechaInicio']
+    fechaFin =  request.form['inputFechaFin']
+    centro = request.form['inputCentro']
+    alto = request.form['inputAlto']
+    ancho = request.form['inputAncho']
+    coordenadaX = request.form['inputCoordenadaX']
+    coordenadaY =request.form['inputCoordenadaY']
+    descripcionpista = request.form['inputPista']
+    imagen = request.form['inputImagen']
+    creador = current_user.getEmail()
+
+    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and coordenadaX and coordenadaY and descripcionpista and imagen:
+        response = juegosCollection.insert_one({'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
+         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho,'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY,
+         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"})
+        if response:
+            return render_template('juegos.html')
+            """Response(response=json.dumps({"Message": "Correct insertion"}),
+                        status=200,
+                        mimetype='application/json')"""
+        else:
+            return Response(response=json.dumps({"Error": "Something wrong during insertion"}),
+                        status=400,
+                        mimetype='application/json')
+    else:
+        return Response(response=json.dumps({"Error": "Some field is empty"}),
+                        status=400,
+                        mimetype='application/json')
 
 """
 @app.route("/misJuegos")
