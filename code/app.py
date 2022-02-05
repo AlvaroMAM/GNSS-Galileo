@@ -37,7 +37,7 @@ def myGames ():
 	#Mostrar los juegos abiertos del usuario
 	list_juegos = juegosCollection.find({"creador": { "$eq" :current_user.userEmail}})
 	estado_juego="activo"
-	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos, verBotonInscribirse=False)
+	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos,user=current_user,verBotonInscribirse=False)
 
 
 # Detalles del juego
@@ -45,19 +45,19 @@ def myGames ():
 def detalles ():
     id=request.values.get("_id")
     current_juego = juegos.find({"_id":ObjectId(id)})
-    return render_template('detalles.html',juego=current_juego) # Aun no existe
+    return render_template('detalles.html',juego=current_juego,user=current_user) # Aun no existe
 
 # Inscripcion al juego
 @app.route("/inscribir", methods=['POST'])
 def details ():
     id=request.values.get("_id")
     #mongodb update
-    return render_template('inscribir.html',juego=current_juego)
+    return render_template('inscribir.html',juego=current_juego,user=current_user)
 
 # Crear un juego
 @app.route("/crearjuego", methods=['GET','POST'])
 def creacionjuego():
-    return render_template('crearjuego.html')
+    return render_template('crearjuego.html',user=current_user)
 
 # Guardar un juego
 @app.route('/saveGame', methods=['GET','POST'])
