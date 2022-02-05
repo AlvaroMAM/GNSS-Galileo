@@ -1,0 +1,72 @@
+{%extends "base.html"%}
+{% block content %}
+<br/>
+<br/>
+<br/>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Crear juego <span class="glyphicon glyphicon-list" aria-hidden="true"></span></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+                <div class="form-group">
+                    <label for="inputNombre" class="col-sm-3 control-label">Nombre</label>
+                    <input type="text" class="form-control" name="inputNombre" id="inputNombre">
+                </div>
+                <div class="form-group">
+                    <label for="inputDescripcion" class="col-sm-3 control-label">Descripción</label>
+                    <input type="text" class="form-control" name="inputDescripcion" id="inputDescripcion">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaInicio" class="col-sm-3 control-label">Fecha inicio</label>
+                    <input type="date" class="form-control" name="inputFechaInicio" id="inputFechaInicio">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaFin" class="col-sm-3 control-label">Fecha fin</label>
+                    <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin">
+                </div>
+                <div class="form-group">
+                    <h3>Área:</h3>
+                    <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
+                    <input type="number" class="form-control" name="inputCentro" id="inputCentro">
+                </div>
+                <div class="form-group">
+                    <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
+                    <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                </div>
+                <div class="form-group">
+                    <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
+                    <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <button type="button" class="btn btn-success" onclick="showCreatorTable()">Creador</button>
+            <button type="button" class="btn btn-success" onclick="showCompetitorTable()">Participante</button>
+        </div>
+        <div id="mis Juegos" class="table-responsive">
+            <table class="table table-striped">
+                <tr id="row">
+                    <th class="nombre">Nombre</th>
+                    <th class="creador">Creador</th>
+                    <th class="estado">Estado</th>
+                    <th class="fecha_fin">Fecha límite</th>
+                    <th class="participantes">Participantes</th>
+                    <th class="func1">Detalles</th>
+                    <th class="func2">Inscribirse</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+<script>
+    function showCompetitorTable () {
+
+    }
+    function showCreatorTable() {
+
+    }
+</script>
+{% endblock content %}

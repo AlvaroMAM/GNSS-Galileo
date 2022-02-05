@@ -43,6 +43,8 @@ def details ():
     #mongodb update
     return render_template('inscribir.html',juego=current_juego)
 
+    
+
 """
 @app.route("/misJuegos")
 def myGames ():
