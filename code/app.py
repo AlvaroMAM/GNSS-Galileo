@@ -4,6 +4,7 @@ import jinja2
 import requests
 import json
 import numpy as np
+import certifi
 from cv2 import cv2
 from bson import json_util
 import aux2 as aux
@@ -11,7 +12,7 @@ import base64
 
 app = Flask(__name__)
 
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb+srv://developers:devCloudDatabase@clusterhuntingtreasure.kux1l.mongodb.net/huntingtreasure?retryWrites=true&w=majority", tlsCAFile=certifi.where())
 proyectoDB = client['Proyecto']
 juegosCollection = proyectoDB['juegos']
 usersCollection = proyectoDB['usuarios']
@@ -146,10 +147,18 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    #Falta eliminar los juegos creados por este usuario y eliminar su participación
     email = request.form['userEmail']
     if email:
-        response = current_user.delete_one({'userEmail': email})
+        response = juegosCollection.delete_many({'creador': email})
+        for juego in current_user.juegosParticipados:
+            for jugador in juego.participantes:
+                if(jugador.email == email):
+                    nuevos_participantes = juego.participantes.remove(jugador)
+                    juego_update = {
+                        'participantes' : nuevos_participantes
+                    }
+                    juegosCollection.update_one({'_id':juego.id},{'$set':juego_update})
+        response = usersCollection.delete_one({'userEmail': email})
         if response:
             currentUser.disconnect()
             return redirect('/')
