@@ -22,9 +22,7 @@
                      })
                       ],
                   view: view
-
       });
-
       var positionFeature = new ol.Feature();
     positionFeature.setStyle(new ol.style.Style({
       image: new ol.style.Circle({
@@ -38,7 +36,6 @@
         })
       })
     }));
-
     var geolocation = new ol.Geolocation({
       // enableHighAccuracy must be set to true to have the heading value.
         trackingOptions: {
@@ -48,11 +45,7 @@
           });
 
         geolocation.setTracking(true);
-
         var coordinates = geolocation.getPosition();
-
-
-
       geolocation.on('change:position', function() {
             var coordinates = geolocation.getPosition();
               console.log(coordinates);
@@ -60,24 +53,15 @@
               new ol.geom.Point(coordinates) : null);
           });
 
-
-
       var vectorSource = new ol.source.Vector({
            features: [positionFeature]
        });
        var markerVectorLayer = new ol.layer.Vector({
            source:  vectorSource,
        });
-
-
         map.addLayer(markerVectorLayer);
-
-
-
         function addMarker(x,y){
-
-
-
+            
          var marker = new ol.Feature({
            geometry: new ol.geom.Point(
                   ol.proj.fromLonLat([y, x]))
