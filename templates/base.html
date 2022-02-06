@@ -14,13 +14,10 @@
     
         <style>
             .map {
-                height: 800px;
+                height: 500px;
                 width: 80%;
             }
-            body {
-                padding-top: 70px;
-                /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-            }
+           
         </style>
     
     </head>
@@ -41,7 +38,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        {%if user %}
+                        {% if user %}
                             <li>
                                 <a href="/juegos"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Juegos</a>
                             </li>
@@ -114,6 +111,7 @@
                 firebase.auth().signOut();
                 state();
                 window.location.href = "http://127.0.0.1:6001/logout";
+                //window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
                 }
 
                 function login(){
@@ -138,7 +136,6 @@
                 function state (){
                     firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        console.log("signin");
                         var name = user.displayName;
                         var email = user.email;
                         var req = new XMLHttpRequest();
@@ -147,9 +144,11 @@
                         if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             
                             window.location.href = "http://127.0.0.1:6001/juegos";
+                            //window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
                         } 
                         }
                         req.open('POST', 'http://127.0.0.1:6001/login', true);
+                        //req.open('POST', 'https://huntingtreasureumapp.herokuapp.com/login', true);
                         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
                         req.setRequestHeader('Access-Control-Allow-Origin','*');
                         req.send("userName=" + name +"&userEmail="+email);
@@ -166,6 +165,7 @@
                 
                 
                 window.location.href = "http://127.0.0.1:6001/delete";
+                //window.location.href = "https://huntingtreasureumapp.herokuapp.com/delete";
                 }
 
             </script>
