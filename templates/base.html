@@ -14,13 +14,10 @@
     
         <style>
             .map {
-                height: 800px;
+                height: 500px;
                 width: 80%;
             }
-            body {
-                padding-top: 70px;
-                /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-            }
+           
         </style>
     
     </head>
@@ -114,6 +111,7 @@
                 firebase.auth().signOut();
                 state();
                 window.location.href = "http://127.0.0.1:6001/logout";
+                //window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
                 }
 
                 function login(){
@@ -145,11 +143,12 @@
                         {
                         if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             
-                            //window.location.href = "http://127.0.0.1:6001/juegos";
-                            window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
+                            window.location.href = "http://127.0.0.1:6001/juegos";
+                            //window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
                         } 
                         }
-                        req.open('POST', 'https://huntingtreasureumapp.herokuapp.com/login', true);
+                        req.open('POST', 'http://127.0.0.1:6001/login', true);
+                        //req.open('POST', 'https://huntingtreasureumapp.herokuapp.com/login', true);
                         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
                         req.setRequestHeader('Access-Control-Allow-Origin','*');
                         req.send("userName=" + name +"&userEmail="+email);
@@ -166,6 +165,7 @@
                 
                 
                 window.location.href = "http://127.0.0.1:6001/delete";
+                //window.location.href = "https://huntingtreasureumapp.herokuapp.com/delete";
                 }
 
             </script>
