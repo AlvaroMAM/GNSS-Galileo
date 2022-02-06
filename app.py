@@ -27,18 +27,18 @@ def index():
 @app.route("/juegos")
 def games ():
     #Juegos participando
-    participando= juegosCollection.find({ })
+    participando= current_user.juegosParticipados
 	#Mostrar todos los juegos excepto los del user
     estado_juego="activo"
     list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
-    return render_template('juegos.html',estado=estado_juego,juegos=list_juegos,user=current_user, verBotonInscribirse=True)
+    return render_template('juegos.html', list_participados=participando, estado=estado_juego,juegos=list_juegos,user=current_user, verTodos=True)
 
 @app.route("/misJuegos")
 def myGames ():
 	#Mostrar los juegos abiertos del usuario
 	list_juegos = juegosCollection.find({"creador": { "$eq" :current_user.userEmail}})
 	estado_juego="activo"
-	return render_template('juegos.html',estado=estado_juego,juegos=list_juegos,user=current_user,verBotonInscribirse=False)
+	return render_template('juegos.html', list_participados={},estado=estado_juego,juegos=list_juegos,user=current_user,verTodos=False)
 
 
 # Detalles del juego
@@ -46,7 +46,7 @@ def myGames ():
 def detalles ():
     id=request.values.get("_id")
     current_juego = juegos.find({"_id":ObjectId(id)})
-    return render_template('detalles.html',juego=current_juego,user=current_user) # Aun no existe
+    return render_template('detalles.html', juego=current_juego, user=current_user) # Aun no existe
 
 # Inscripcion al juego
 @app.route("/inscribir", methods=['POST'])
@@ -153,7 +153,6 @@ def logout():
     current_user.disconnect()
     return redirect('/')
 
-# Actualizar juegos de usuarios que participan en juegos de admin
 @app.route('/delete')
 def delete():
     email = request.form['userEmail']
