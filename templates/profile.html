@@ -5,86 +5,7 @@
 <br/>
 
 <div class="row">
-    <div class="col"></div>
-<div id="map" class="col-10 map">
-    <script>
-
-        var view = new ol.View({
-      center: ol.proj.fromLonLat([-4.4780512, 36.7150865]),
-                          zoom: 12
-    });
-
-    var map = new ol.Map({
-            target: 'map',
-                layers: [
-                 new ol.layer.Tile({
-                   source: new ol.source.OSM()
-                     })
-                      ],
-                  view: view
-      });
-      var positionFeature = new ol.Feature();
-    positionFeature.setStyle(new ol.style.Style({
-      image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-          color: '#3399CC'
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#fff',
-          width: 2
-        })
-      })
-    }));
-    var geolocation = new ol.Geolocation({
-      // enableHighAccuracy must be set to true to have the heading value.
-        trackingOptions: {
-              enableHighAccuracy: true
-            },
-            projection: view.getProjection()
-          });
-
-        geolocation.setTracking(true);
-        var coordinates = geolocation.getPosition();
-      geolocation.on('change:position', function() {
-            var coordinates = geolocation.getPosition();
-              console.log(coordinates);
-            positionFeature.setGeometry(coordinates ?
-              new ol.geom.Point(coordinates) : null);
-          });
-
-      var vectorSource = new ol.source.Vector({
-           features: [positionFeature]
-       });
-       var markerVectorLayer = new ol.layer.Vector({
-           source:  vectorSource,
-       });
-        map.addLayer(markerVectorLayer);
-        function addMarker(x,y){
-            
-         var marker = new ol.Feature({
-           geometry: new ol.geom.Point(
-                  ol.proj.fromLonLat([y, x]))
-       });
-
-
-
-       var vectorSource = new ol.source.Vector({
-           features: [marker, positionFeature]
-       });
-       var markerVectorLayer = new ol.layer.Vector({
-           source:  vectorSource,
-       });
-
-
-        map.addLayer(markerVectorLayer);
-
-
-
-        };
-    </script>
-
-</div>
+ 
 {% if user.userEmail %}
     <div class="row">
         <div class="col-lg-12 text-center">
@@ -115,7 +36,6 @@
                     </div>
                 </div>
                 {% endif %}
-                <a class="btn btn-primary py-2 ml-2" href="https://twitter.com/intent/tweet?text=Estoy jugando a este juego, Únete !!!"><i class="fab fa-twitter"></i> Compartir en Twitter</a>
         </div>
     </div>
     <div class="row">

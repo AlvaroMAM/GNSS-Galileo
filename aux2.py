@@ -41,18 +41,15 @@ class User:
         self.setIsAdmin(False)
 
 class Image:
-    def __init__(self,i,name,date,dateProc,imageB):
+    def __init__(self,i,name,date,imageB):
         self.index = i
         self.imageName = name
         self.imageDate = date
-        self.imageDateProc = dateProc
         self.imageBytes = imageB
     def getName(self):
         return self.imageName
     def getDate(self):
         return self.imageDate
-    def getDateProc(self):
-        return self.imageDateProc
     def getImageBytes(self):
         return self.imageBytes
     def getIndex(self):
@@ -61,8 +58,6 @@ class Image:
         self.imageName = name
     def setDate(self,date):
         self.imageDate = date
-    def setDateProc(self,dateProc):
-        self.imageDateProc = dateProc
     def setImageBytes(self,iB):
         self.imageBytes = iB
     def setIndex(self,i):
