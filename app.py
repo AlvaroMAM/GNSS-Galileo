@@ -145,11 +145,20 @@ def logout():
     current_user.disconnect()
     return redirect('/')
 
-# Actualizar juegos de usuarios que participan en juegos de admin
+
 @app.route('/delete')
 def delete():
     email = request.form['userEmail']
     if email:
+        juegos_creados = juegosCollection.find({'creador' : email})
+        for juego in juegos_creados:
+            for participante in juego.participantes:
+                usuario = usersCollection.find({'userEmail': participante.userEmail})
+                nuevos_juegos = usuario.juegosParticipados.remove(juego)
+                juegos_update = {
+                    'juegosParticipados' : nuevos_juegos
+                }
+                usersCollection.update_one({'_id':participante.id},{'$set':juegos_update})
         response = juegosCollection.delete_many({'creador': email})
         for juego in current_user.juegosParticipados:
             for jugador in juego.participantes:
