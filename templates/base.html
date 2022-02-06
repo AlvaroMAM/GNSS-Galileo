@@ -138,7 +138,6 @@
                 function state (){
                     firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        console.log("signin");
                         var name = user.displayName;
                         var email = user.email;
                         var req = new XMLHttpRequest();
@@ -146,10 +145,11 @@
                         {
                         if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             
-                            window.location.href = "http://127.0.0.1:6001/juegos";
+                            //window.location.href = "http://127.0.0.1:6001/juegos";
+                            window.location.href = "https://huntingtreasureumapp.herokuapp.com/juegos"
                         } 
                         }
-                        req.open('POST', 'http://127.0.0.1:6001/login', true);
+                        req.open('POST', 'https://huntingtreasureumapp.herokuapp.com/login', true);
                         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
                         req.setRequestHeader('Access-Control-Allow-Origin','*');
                         req.send("userName=" + name +"&userEmail="+email);
