@@ -3,6 +3,44 @@
 	<hr>
 	</br>
 	<a href="/crearjuego"><button type="submit" class=" btn btn-primary">Crear juego</button></a>
+	
+	{% if verTodos %}
+		{% if list_participados[0] %}
+		<b><big>Juegos Inscritos :</big></b>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr id="row">
+						<th class="nombre">Nombre</th>
+						<th class="creador">Creador</th>
+						<th class="estado">Estado</th>
+						<th class="fechaFin">Fecha límite</th>
+						<th class="participantes">Participantes</th>
+						<th class="func1">Detalles</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for juego in list_participados %}
+						<tr class="datas">
+							<td class="nombre">{{ list_participados["nombre"] }}</td>
+							<td class="creador">{{ list_participados["creador"] }}</td>
+							<td class="estado">{{ list_participados["estado"] }}</td>
+							<td class="fechaFin">{{ list_participados["fechaFin"] }}</td>
+							<td class="participantes">{{'0' if list_participados["participantes"] == None else list_participados["participantes"]|length}}</td>
+							<td class="func1"><a href="./detalles?_id={{ list_participados['_id'] }}"><button type="submit">Detalles</button></a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% else %}
+			<h4>No estás inscrito en ningún juego.</h4>
+		{% endif %}
+	{% else %}
+		
+	{% endif %}
+
+
 	{% if juegos[0] %}
 	<b><big>Lista de juegos :</big></b>
 	<div class="table-responsive">
@@ -15,7 +53,7 @@
 					<th class="fechaFin">Fecha límite</th>
 					<th class="participantes">Participantes</th>
 					<th class="func1">Detalles</th>
-					{% if verBotonInscribirse %}
+					{% if verTodos %}
 						<th class="func2">Inscribirse</th>
 					{% endif %}
 				</tr>
@@ -29,7 +67,7 @@
 						<td class="fechaFin">{{ juego["fechaFin"] }}</td>
 						<td class="participantes">{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
 						<td class="func1"><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
-						{% if verBotonInscribirse %}
+						{% if verTodos %}
 							<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>
 						{% endif %}
 					</tr>
@@ -39,7 +77,11 @@
 		</table>
 	</div>
 		{% else %}
-			<h4>No hay juegos abiertos actualmente.</h4>
+			{% if verTodos %}
+				<h4>No hay juegos abiertos actualmente.</h4>
+			{% else %}
+				<h4>No has creado ningun juego.</h4>
+			{% endif %}
 		{% endif %}
 	<hr/>
 {% endblock content %}
