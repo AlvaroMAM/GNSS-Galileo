@@ -26,7 +26,7 @@
 							<td class="creador">{{ part["creador"] }}</td>
 							<td class="estado">{{ part["estado"] }}</td>
 							<td class="fechaFin">{{ part["fechaFin"] }}</td>
-							<td class="participantes">{{'0' if part["participantes"] == None else part["participantes"]|length}}</td>
+							<td class="participantes">{{'0' if part["listaParticipantes"] == None else part["listaParticipantes"]|length}}</td>
 							<td class="func1"><a href="./detalles?_id={{ part['_id'] }}"><button type="submit">Detalles</button></a></td>
 						</tr>
 					{% endfor %}
@@ -63,7 +63,7 @@
 						<td class="creador">{{ juego["creador"] }}</td>
 						<td class="estado">{{ juego["estado"] }}</td>
 						<td class="fechaFin">{{ juego["fechaFin"] }}</td>
-						<td class="participantes">{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
+						<td class="participantes">{{'0' if juego["listaParticipantes"] == None else juego["listaParticipantes"]|length}}</td>
 						<td class="func1"><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
 						{% if verTodos %}
 							<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>

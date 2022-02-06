@@ -28,10 +28,10 @@ def index():
 @app.route("/juegos")
 def games ():
     #Juegos participando
-    participando= juegosCollection.find( { "listaParticipantes": { "$elemMatch" : { "$eq": current_user.userEmail } } } )
+    participando= juegosCollection.find( { "listaParticipantes":  { "$eq": current_user.userEmail } } )
 	#Mostrar todos los juegos excepto los del user
     estado_juego="Activo"
-    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
+    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail }, "listaParticipantes": {"$nin": [current_user.userEmail]}  } )
     return render_template('juegos.html', list_participados=participando, estado=estado_juego,juegos=list_juegos,user=current_user, verTodos=True)
 
 @app.route("/misJuegos")
@@ -41,7 +41,6 @@ def myGames ():
 	estado_juego="activo"
 	return render_template('juegos.html', list_participados={},estado=estado_juego,juegos=list_juegos,user=current_user,verTodos=False)
 
-json_util.dumps
 # Detalles del juego
 @app.route("/detalles")
 def detalles ():
