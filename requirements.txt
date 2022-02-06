@@ -5,7 +5,7 @@ colorama==0.4.4
 Flask==2.0.2
 idna==3.3
 itsdangerous==2.0.1
-Jinja2==
+Jinja2
 MarkupSafe==2.0.1
 numpy==1.22.1
 opencv-python==4.5.5.62
