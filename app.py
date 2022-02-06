@@ -70,20 +70,28 @@ def writeGame():
     centro = request.form['inputCentro']
     alto = request.form['inputAlto']
     ancho = request.form['inputAncho']
-    coordenadaX = request.form['inputCoordenadaX']
-    coordenadaY =request.form['inputCoordenadaY']
+    nTesoros = request.form['total_chq']
     descripcionpista = request.form['inputPista']
     imagen = request.form['inputImagen']
     creador = current_user.getEmail()
     list_juegos = juegosCollection.find()
     insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
-         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho,'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY,
+         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
          'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
 
-    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and coordenadaX and coordenadaY and descripcionpista and imagen:
+    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
         response = juegosCollection.insert_one(insercion)
         usersCollection.update_one( {"userEmail": creador}, 
                                     {"$push": {"juegosParticipados": insercion }} )
+        print(nTesoros)
+        for i in range(1, int(nTesoros)+1):
+            coordenadaX = request.form['inputCoordenadaX'+str(i)]
+            coordenadaY = request.form['inputCoordenadaY'+str(i)]
+            juegosCollection.update_one( {"_id": response.inserted_id },
+                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY}}})
+            prueba = ({"_id": response.inserted_id },
+                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY}}})
+            print(prueba)
         if response:
             return render_template('juegos.html',juegos=list_juegos,user=current_user)
             """Response(response=json.dumps({"Message": "Correct insertion"}),
