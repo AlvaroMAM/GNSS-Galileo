@@ -28,10 +28,10 @@ def index():
 @app.route("/juegos")
 def games ():
     #Juegos participando
-    participando= current_user.juegosParticipados
+    participando= juegosCollection.find( { "listaParticipantes":  { "$eq": current_user.userEmail } } )
 	#Mostrar todos los juegos excepto los del user
-    estado_juego="activo"
-    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
+    estado_juego="Activo"
+    list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail }, "listaParticipantes": {"$nin": [current_user.userEmail]}  } )
     return render_template('juegos.html', list_participados=participando, estado=estado_juego,juegos=list_juegos,user=current_user, verTodos=True)
 
 @app.route("/misJuegos")
@@ -40,7 +40,6 @@ def myGames ():
 	list_juegos = juegosCollection.find({"creador": { "$eq" :current_user.userEmail}})
 	estado_juego="activo"
 	return render_template('juegos.html', list_participados={},estado=estado_juego,juegos=list_juegos,user=current_user,verTodos=False)
-
 
 # Detalles del juego
 @app.route("/detalles")
@@ -51,16 +50,13 @@ def detalles ():
     return render_template('detalles.html', juego=current_juego, user=current_user, tesoros = listatesoros["tesoros"])
 
 # Inscripcion al juego
-@app.route("/inscribir", methods=['POST'])
+@app.route("/inscribir")
 def details ():
     id=request.values.get("_id")
     #mongodb update
-    #juego
-    juegoQuery = { "_id" : id }
-
-    juegosCollection.update_one(juegoQuery, {"$push" : { "participantes" : current_user.getEmail}})
+    juego = juegosCollection.find({"_id":ObjectId(id)})
+    juegosCollection.update_one( {"_id": ObjectId(id) },{"$push": { "listaParticipantes" : current_user.userEmail}})
     return redirect("/juegos")
-    #return render_template('juegos.html',juego=current_juego,user=current_user)
 
 # Crear un juego
 @app.route("/crearjuego", methods=['GET','POST'])
