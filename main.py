@@ -5,7 +5,6 @@ import requests
 import json
 import numpy as np
 import certifi
-from cv2 import cv2
 from bson.objectid import ObjectId
 from bson import json_util
 import aux2 as aux
