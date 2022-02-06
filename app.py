@@ -46,9 +46,11 @@ def myGames ():
 @app.route("/detalles")
 def detalles ():
     id=request.values.get("_id")
-    current_juego = juegosCollection.find({"_id":ObjectId(id)})
-    listatesoros = json.loads(current_juego)
-    return render_template('detalles.html', juego=current_juego, user=current_user, tesoros = listatesoros["tesoros"])
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    listaTesoros = juego_json[0]['tesoros']
+    print(juego_json[0]['tesoros'])
+    return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros)
 
 # Inscripcion al juego
 @app.route("/inscribir", methods=['POST'])
@@ -67,6 +69,16 @@ def details ():
 def creacionjuego():
     return render_template('crearjuego.html',user=current_user)
 
+# Modificar un juego
+@app.route("/modificarjuego")
+def modificacionjuego():
+    id=request.values.get("_id")
+    print(id)
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    print(juego_json[0])
+    return render_template('modificarjuego.html',user=current_user, juego=juego_json[0])
+
 # Guardar un juego
 @app.route('/saveGame', methods=['GET','POST'])
 def writeGame():
@@ -84,7 +96,7 @@ def writeGame():
     list_juegos = juegosCollection.find()
     insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
          'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
-         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
+         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo", 'listaParticipantes': []}
 
     if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
         response = juegosCollection.insert_one(insercion)

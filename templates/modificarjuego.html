@@ -1,0 +1,103 @@
+{%extends "base.html"%}
+{% block content %}
+<br/>
+<br/>
+<br/>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Modificar juego </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <form action="/saveGame" method="POST">
+                <div class="form-group">
+                    <label for="inputNombre" class="col-sm-3 control-label">Nombre</label>
+                    <input type="text" class="form-control" name="inputNombre" id="inputNombre" value="{{ juego['nombre'] }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputDescripcion" class="col-sm-3 control-label">Descripción</label>
+                    <input type="text" class="form-control" name="inputDescripcion" id="inputDescripcion">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaInicio" class="col-sm-3 control-label">Fecha inicio</label>
+                    <input type="date" class="form-control" name="inputFechaInicio" id="inputFechaInicio">
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaFin" class="col-sm-3 control-label">Fecha fin</label>
+                    <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin">
+                </div>
+                <h3>Área:</h3>
+                <div class="form-group">
+                    <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
+                    <input type="number" class="form-control" name="inputCentro" id="inputCentro">
+                </div>
+                <div class="form-group">
+                    <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
+                    <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                </div>
+                <div class="form-group">
+                    <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
+                    <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                </div>
+                <h3>Tesoros:</h3>
+                <div class="form-group row">
+                    <label for="inputCoordenadaX1" class="col-sm-2 control-label">Coordenada X</label>
+                    <label for="inputCoordenadaY1" class="col-sm-10 control-label">Coordenada Y</label>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputCoordenadaX1" id="inputCoordenadaX1">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputCoordenadaY1" id="inputCoordenadaY1">
+                    </div>
+                    <button type="button" class="add" onclick="add();">Añadir tesoro</button>
+                    <button type="button" class="remove" onclick="remove();">Eliminar tesoro</button>
+                </div>
+                <div id="nuevo_tesoro"></div>
+                <input type="hidden" value=1 name="total_chq" id="total_chq">
+                <h3>Pistas:</h3>
+                <div class="form-group">
+                    <label for="inputPista" class="col-sm-3 control-label">Descripción</label>
+                    <textarea class="form-control" name="inputPista" id="inputPista"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputImagen" class="col-sm-3 control-label">Imágen</label>
+                    <input type="file" class="form-control" name="inputImagen" id="inputImagen">
+                </div>
+                <button type="submit" class="btn btn-primary">Crear juego</button>
+            </form>
+        </div>
+    </div>
+<script>
+
+    function add() {
+        var new_chq_no = parseInt($('#total_chq').val()) + 1;
+        var new_input =  "<div class='form-group row'>" + 
+                    "<label for='inputCoordenadaX' class='col-sm-2 control-label' id='labelCoordenadaX" + new_chq_no + "'>Coordenada X</label>" +
+                    "<label for='inputCoordenadaY' class='col-sm-10 control-label' id='labelCoordenadaY" + new_chq_no + "'>Coordenada Y</label>" +
+                    "<div class='col-xs-2'>" +
+                        "<input type='number' class='form-control' name='inputCoordenadaX" + new_chq_no + "' id='inputCoordenadaX" + new_chq_no + "'>" +
+                    "</div>" +
+                    "<div class='col-xs-2'>" +
+                        "<input type='number' class='form-control' name='inputCoordenadaY" + new_chq_no + "' id='inputCoordenadaY" + new_chq_no + "'>" +
+                    "</div>" +
+                    "</div>";
+
+        $('#nuevo_tesoro').append(new_input);
+        
+        $('#total_chq').val(new_chq_no);
+    }
+
+    function remove() {
+        var last_chq_no = $('#total_chq').val();
+
+        if (last_chq_no > 1) {
+            $('#labelCoordenadaX' + last_chq_no).remove();
+            $('#labelCoordenadaY' + last_chq_no).remove();
+            $('#inputCoordenadaX' + last_chq_no).remove();
+            $('#inputCoordenadaY' + last_chq_no).remove();
+            $('#total_chq').val(last_chq_no - 1);
+    }
+}
+</script>
+{% endblock content %}

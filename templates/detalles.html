@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+{% block content %}
+	<hr>
+	</br>
+	{% if user.isAdmin %}
+	<a href="/modificarjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Modificar juego</button></a>
+	<b><big>Tesoros :</big></b>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr id="row">
+					<th>Coordenada X</th>
+					<th>Coordenada Y</th>
+					<th>Encontrado</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for i in tesoro %}
+					<tr>
+						<td>{{ i.coordenadaX }}</td>
+						<td>{{ i.coordenadaY }}</td>
+						{% if i.encontrado %}
+							<td>SI</td>
+						{% else %}
+							<td>NO</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{% else %}
+	<b><big>Tesoros :</big></b>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr id="row">
+					<th>Coordenada X</th>
+					<th>Coordenada Y</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tesoro in juego["tesoros"] %}
+					<tr>
+						<td>{{ tesoro.coordenadaX }}</td>
+						<td>{{ tesoro["coordenadaY"] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{% endif %}
+{% endblock content %}
+
+
