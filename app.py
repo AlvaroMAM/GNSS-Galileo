@@ -55,7 +55,12 @@ def detalles ():
 def details ():
     id=request.values.get("_id")
     #mongodb update
-    return render_template('inscribir.html',juego=current_juego,user=current_user)
+    #juego
+    juegoQuery = { "_id" : id }
+
+    juegosCollection.update_one(juegoQuery, {"$push" : { "participantes" : current_user.getEmail}})
+    return redirect("/juegos")
+    #return render_template('juegos.html',juego=current_juego,user=current_user)
 
 # Crear un juego
 @app.route("/crearjuego", methods=['GET','POST'])
