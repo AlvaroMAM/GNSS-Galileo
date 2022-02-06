@@ -20,14 +20,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for juego in list_participados %}
+					{% for part in list_participados %}
 						<tr class="datas">
-							<td class="nombre">{{ list_participados["nombre"] }}</td>
-							<td class="creador">{{ list_participados["creador"] }}</td>
-							<td class="estado">{{ list_participados["estado"] }}</td>
-							<td class="fechaFin">{{ list_participados["fechaFin"] }}</td>
-							<td class="participantes">{{'0' if list_participados["participantes"] == None else list_participados["participantes"]|length}}</td>
-							<td class="func1"><a href="./detalles?_id={{ list_participados['_id'] }}"><button type="submit">Detalles</button></a></td>
+							<td class="nombre">{{ part["nombre"] }}</td>
+							<td class="creador">{{ part["creador"] }}</td>
+							<td class="estado">{{ part["estado"] }}</td>
+							<td class="fechaFin">{{ part["fechaFin"] }}</td>
+							<td class="participantes">{{'0' if part["participantes"] == None else part["participantes"]|length}}</td>
+							<td class="func1"><a href="./detalles?_id={{ part['_id'] }}"><button type="submit">Detalles</button></a></td>
 						</tr>
 					{% endfor %}
 				</tbody>
@@ -36,8 +36,6 @@
 		{% else %}
 			<h4>No estás inscrito en ningún juego.</h4>
 		{% endif %}
-	{% else %}
-		
 	{% endif %}
 
 

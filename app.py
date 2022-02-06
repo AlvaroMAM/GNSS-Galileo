@@ -6,6 +6,7 @@ import json
 import numpy as np
 import certifi
 from cv2 import cv2
+from bson.objectid import ObjectId
 from bson import json_util
 import aux2 as aux
 import base64
@@ -27,9 +28,9 @@ def index():
 @app.route("/juegos")
 def games ():
     #Juegos participando
-    participando= current_user.juegosParticipados
+    participando= juegosCollection.find( { "listaParticipantes": { "$elemMatch" : { "$eq": current_user.userEmail } } } )
 	#Mostrar todos los juegos excepto los del user
-    estado_juego="activo"
+    estado_juego="Activo"
     list_juegos = juegosCollection.find( { "creador": { "$ne" : current_user.userEmail } })
     return render_template('juegos.html', list_participados=participando, estado=estado_juego,juegos=list_juegos,user=current_user, verTodos=True)
 
@@ -40,7 +41,7 @@ def myGames ():
 	estado_juego="activo"
 	return render_template('juegos.html', list_participados={},estado=estado_juego,juegos=list_juegos,user=current_user,verTodos=False)
 
-
+json_util.dumps
 # Detalles del juego
 @app.route("/detalles")
 def detalles ():
@@ -49,16 +50,13 @@ def detalles ():
     return render_template('detalles.html', juego=current_juego, user=current_user) # Aun no existe
 
 # Inscripcion al juego
-@app.route("/inscribir", methods=['POST'])
+@app.route("/inscribir")
 def details ():
     id=request.values.get("_id")
     #mongodb update
-    #juego
-    juegoQuery = { "_id" : id }
-
-    juegosCollection.update_one(juegoQuery, {"$push" : { "participantes" : current_user.getEmail}})
+    juego = juegosCollection.find({"_id":ObjectId(id)})
+    juegosCollection.update_one( {"_id": ObjectId(id) },{"$push": { "listaParticipantes" : current_user.userEmail}})
     return redirect("/juegos")
-    #return render_template('juegos.html',juego=current_juego,user=current_user)
 
 # Crear un juego
 @app.route("/crearjuego", methods=['GET','POST'])
@@ -201,5 +199,5 @@ def profile():
 #-------------User Control----------------------#
         
 if __name__ == '__main__':
-    #app.run(host='127.0.0.1', port=6001, debug=True)
-    app.run(host="localhost", port=5000)
+    app.run(host='127.0.0.1', port=6001, debug=True)
+    #app.run(host="localhost", port=5000)
