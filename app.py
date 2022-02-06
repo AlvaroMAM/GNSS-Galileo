@@ -145,6 +145,7 @@ def logout():
     current_user.disconnect()
     return redirect('/')
 
+# Actualizar juegos de usuarios que participan en juegos de admin
 @app.route('/delete')
 def delete():
     email = request.form['userEmail']
