@@ -47,7 +47,8 @@ json_util.dumps
 def detalles ():
     id=request.values.get("_id")
     current_juego = juegosCollection.find({"_id":ObjectId(id)})
-    return render_template('detalles.html', juego=current_juego, user=current_user) # Aun no existe
+    listatesoros = json.loads(current_juego)
+    return render_template('detalles.html', juego=current_juego, user=current_user, tesoros = listatesoros["tesoros"])
 
 # Inscripcion al juego
 @app.route("/inscribir")
@@ -86,15 +87,11 @@ def writeGame():
         response = juegosCollection.insert_one(insercion)
         usersCollection.update_one( {"userEmail": creador}, 
                                     {"$push": {"juegosParticipados": insercion }} )
-        print(nTesoros)
         for i in range(1, int(nTesoros)+1):
             coordenadaX = request.form['inputCoordenadaX'+str(i)]
             coordenadaY = request.form['inputCoordenadaY'+str(i)]
             juegosCollection.update_one( {"_id": response.inserted_id },
-                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY}}})
-            prueba = ({"_id": response.inserted_id },
-                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY}}})
-            print(prueba)
+                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY, 'encontrado': False}}})
         if response:
             return render_template('juegos.html',juegos=list_juegos,user=current_user)
             """Response(response=json.dumps({"Message": "Correct insertion"}),
