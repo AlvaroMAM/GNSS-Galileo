@@ -45,7 +45,7 @@ def myGames ():
 @app.route("/detalles")
 def detalles ():
     id=request.values.get("_id")
-    current_juego = juegos.find({"_id":ObjectId(id)})
+    current_juego = juegosCollection.find({"_id":ObjectId(id)})
     return render_template('detalles.html', juego=current_juego, user=current_user) # Aun no existe
 
 # Inscripcion al juego
@@ -53,7 +53,12 @@ def detalles ():
 def details ():
     id=request.values.get("_id")
     #mongodb update
-    return render_template('inscribir.html',juego=current_juego,user=current_user)
+    #juego
+    juegoQuery = { "_id" : id }
+
+    juegosCollection.update_one(juegoQuery, {"$push" : { "participantes" : current_user.getEmail}})
+    return redirect("/juegos")
+    #return render_template('juegos.html',juego=current_juego,user=current_user)
 
 # Crear un juego
 @app.route("/crearjuego", methods=['GET','POST'])
