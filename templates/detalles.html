@@ -74,23 +74,30 @@
 			</script>
 		</div>
 	</div>
+	</br>
 	<a class="btn btn-primary py-2 ml-2" href="https://twitter.com/intent/tweet?text=Estoy jugando a este juego, Únete !!!"><i class="fab fa-twitter"></i> Compartir Juego en Twitter</a>
-	
+	</br>
+
 	{% if user.isAdmin %}
+	</br>
 	<a href="/modificarjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Modificar juego</button></a>
-	<b><big>Tesoros :</big></b>
+	</br>
+	<h3>Tesoros :</h3>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
 				<tr id="row">
+					<th>Número tesoro</th>
 					<th>Coordenada X</th>
 					<th>Coordenada Y</th>
 					<th>Encontrado</th>
+					<th>Localizado por</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for i in tesoro %}
 					<tr>
+						<td>{{ loop.index }}</td>
 						<td>{{ i.coordenadaX }}</td>
 						<td>{{ i.coordenadaY }}</td>
 						{% if i.encontrado %}
@@ -98,6 +105,7 @@
 						{% else %}
 							<td>NO</td>
 						{% endif %}
+						<td>{{ i.localizadoPor }}</td>
 					</tr>
 					<script>
 					addMarker({{ i.coordenadaX }},{{ i.coordenadaY }})
@@ -106,30 +114,116 @@
 			</tbody>
 		</table>
 	</div>
+	</br>
+	<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</br>
+	<h3>Comentarios del juego:</h3>
+	<div class="container">
+        <div class="row">
+				{% for i in comentario %}
+				<div class="col-sm-7 col-md-7 col-12 pb-4">
+					<div class="comment mt-4 text-justify float-left">
+						<h4>{{ i.autor }}</h4> <span>- {{ i.fecha }}</span> <br>
+						<p>{{ i.mensaje }}</p>
+					</div>
+				</div>	
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<form action="/saveComentario" method="POST">
+		<div class="form-group">
+		<p></p>
+		<p></p>
+		<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
+			<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
+			<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Enviar comentario</button>
+	</form>
 	{% else %}
-	<b><big>Tesoros :</big></b>
+	</br>
+	<h3>Tesoros :</h3>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
 				<tr id="row">
-					<th>Coordenada X</th>
-					<th>Coordenada Y</th>
+					<th>Número tesoro</th>
+					<th>Encontrado</th>
+					<th>Localizado por</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for tesoro in juego["tesoros"] %}
+				{% for i in tesoro %}
 					<tr>
-						<td>{{ tesoro.coordenadaX }}</td>
-						<td>{{ tesoro["coordenadaY"] }}</td>
+						<td>{{ loop.index }}</td>
+						{% if i.encontrado %}
+							<td>SI</td>
+						{% else %}
+							<td>NO</td>
+						{% endif %}
+						<td>{{ i.localizadoPor }}</td>
 					</tr>
 					<script>
-						addMarker({{ tesoro.coordenadaX }},{{ tesoro.coordenadaY }})
+					addMarker({{ i.coordenadaX }},{{ i.coordenadaY }})
 					</script>
 				{% endfor %}
 			</tbody>
 		</table>
 	</div>
+	</br>
+	<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</br>
+	<h3>Comentarios del juego:</h3>
+	<div class="container">
+		<div class="row">
+				{% for i in comentario %}
+				<div class="col-sm-7 col-md-7 col-12 pb-4">
+					<div class="comment mt-4 text-justify float-left">
+						<h4>{{ i.autor }}</h4> <span>- {{ i.fecha }}</span> <br>
+						<p>{{ i.mensaje }}</p>
+					</div>
+				</div>	
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<form action="/saveComentario" method="POST">
+		<div class="form-group">
+		<p></p>
+		<p></p>
+		<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
+			<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
+			<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Enviar comentario</button>
+	</form>
 	{% endif %}
+
+<style>
+	.comment {
+    border: 1px solid rgba(16, 46, 46, 1);
+    float: left;
+    border-radius: 5px;
+    padding-left: 40px;
+    padding-right: 30px;
+    padding-top: 10px;
+	margin: 4px;
+	}
+
+	.comment p,
+	.comment h4,
+	.comment span {
+    color: black
+	}
+
+	.comment h4,
+	.comment span {
+    display: inline
+	}
+
+
+</style>	
 {% endblock content %}
 
 

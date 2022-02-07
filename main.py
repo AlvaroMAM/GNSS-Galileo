@@ -9,6 +9,8 @@ from bson.objectid import ObjectId
 from bson import json_util
 import aux2 as aux
 import base64
+from datetime import date
+import easygui
 
 app = Flask(__name__)
 
@@ -47,8 +49,9 @@ def detalles ():
     current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
     juego_json = json.loads(current_juego)
     listaTesoros = juego_json[0]['tesoros']
-    print(juego_json[0]['tesoros'])
-    return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros)
+    comentarios = juego_json[0]['comentarios']
+    print(juego_json[0]['comentarios'])
+    return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros, comentario = comentarios)
 
 # Inscripcion al juego
 @app.route("/inscribir")
@@ -68,11 +71,48 @@ def creacionjuego():
 @app.route("/modificarjuego")
 def modificacionjuego():
     id=request.values.get("_id")
-    print(id)
     current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
     juego_json = json.loads(current_juego)
     print(juego_json[0])
-    return render_template('modificarjuego.html',user=current_user, juego=juego_json[0])
+    return render_template('modificarjuego.html',user=current_user, juego=juego_json[0], longitud=len(juego_json[0]['tesoros']))
+
+# Registrar un tesoro
+@app.route("/registrartesoro")
+def regtesoro():
+    id=request.values.get("_id")
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    listaTesoros = juego_json[0]['tesoros']
+    """for i in listaTesoros:
+            print(i['coordenadaX'])"""
+    return render_template('registrartesoro.html',user=current_user, juego=juego_json[0])
+
+# Guardar un comentario
+@app.route('/saveComentario', methods=['GET','POST'])
+def writeComment():
+    id=request.form["identificador"]
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    listaTesoros = juego_json[0]['tesoros']
+    comentarios = juego_json[0]['comentarios']
+    mensaje = request.form["inputComentario"]
+    autor = current_user.getUserName()
+    today = date.today()
+    d1 = today.strftime("%d/%m/%Y")
+    comentario = {'autor': autor,'mensaje':mensaje, 'fecha': d1}
+    print(juego_json)
+    if mensaje:
+        response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$push": { "comentarios" : comentario}})
+        if response:
+            return redirect('detalles?_id='+id)
+        else:
+            return Response(response=json.dumps({"Error": "Something wrong during insertion"}),
+                        status=400,
+                        mimetype='application/json')
+    else:
+        return Response(response=json.dumps({"Error": "Some field is empty"}),
+                        status=400,
+                        mimetype='application/json')
 
 # Guardar un juego
 @app.route('/saveGame', methods=['GET','POST'])
@@ -91,7 +131,7 @@ def writeGame():
     list_juegos = juegosCollection.find()
     insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
          'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
-         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo", 'listaParticipantes': []}
+         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo", 'listaParticipantes': [], 'comentarios': []}
 
     if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
         response = juegosCollection.insert_one(insercion)
@@ -116,6 +156,84 @@ def writeGame():
                         status=400,
                         mimetype='application/json')
 
+
+# Modificar un juego
+@app.route('/modifyGame', methods=['GET','POST'])
+def modifyGame():
+    id=request.form["identificador"]
+    nombre = request.form["inputNombre"]
+    descripcion = request.form['inputDescripcion']
+    fechaInicio = request.form['inputFechaInicio']
+    fechaFin =  request.form['inputFechaFin']
+    centro = request.form['inputCentro']
+    alto = request.form['inputAlto']
+    ancho = request.form['inputAncho']
+    nTesoros = request.form['total_chq']
+    descripcionpista = request.form['inputPista']
+    imagen = request.form['inputImagen']
+    creador = current_user.getEmail()
+    list_juegos = juegosCollection.find()
+    insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
+         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
+         'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
+
+    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
+        response = juegosCollection.update_one({"_id": ObjectId(id) }, {"$set": insercion})
+        for i in range(1, int(nTesoros)+1):
+            coordenadaX = request.form['inputCoordenadaX'+str(i)]
+            coordenadaY = request.form['inputCoordenadaY'+str(i)]
+            juegosCollection.update_one( {"_id": ObjectId(id) },
+                                    {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY, 'encontrado': False}}})
+        if response:
+            return redirect('detalles?_id='+id)
+        else:
+            return Response(response=json.dumps({"Error": "Something wrong during insertion"}),
+                        status=400,
+                        mimetype='application/json')
+    else:
+        return Response(response=json.dumps({"Error": "Some field is empty"}),
+                        status=400,
+                        mimetype='application/json')
+
+# Registrar un tesoro
+@app.route('/saveTreasure', methods=['GET','POST'])
+def writeTreasure():
+    id=request.form["identificador"]
+    coordenadax = request.form['inputCoordenadaX1']
+    coordenaday = request.form['inputCoordenadaY1']
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    nombre = current_user.getUserName()
+    listaTesoros = juego_json[0]['tesoros']
+    print(len(listaTesoros))
+    contador = 0
+    if coordenadax and coordenaday:
+        for i in listaTesoros:
+            if i['coordenadaX']==coordenadax and i['coordenadaY']==coordenaday:
+                if not(i['encontrado']):
+                    easygui.msgbox(msg='Enhorabuena has encontrado un tesoro!!!!', 
+                        title='Tesoro encontrado', 
+                        ok_button=('Aceptar'))
+                    juegosCollection.update_one( {"_id": ObjectId(id), "tesoros.coordenadaX": i['coordenadaX'], "tesoros.coordenadaY": i['coordenadaY']},
+                                                        {"$set": {"tesoros.$.encontrado" : True}})
+                    juegosCollection.update_one( {"_id": ObjectId(id), "tesoros.coordenadaX": i['coordenadaX'], "tesoros.coordenadaY": i['coordenadaY']},
+                                                        {"$set": {"tesoros.$.localizadoPor" : nombre}})                                                        
+                    break
+                else:
+                    easygui.msgbox(msg='Este tesoro ya fue encontrado por otra persona antes', 
+                        title='Tesoro encontrado', 
+                        ok_button=('Aceptar'))
+                    break
+            contador += 1
+            if contador==len(listaTesoros):
+                easygui.msgbox(msg='Lo sentimos, en las coordenadas introducidas no había ningún tesoro. Sigue buscando!', 
+                    title='Tesoro no encontrado', 
+                    ok_button=('Aceptar'))
+        return redirect('detalles?_id='+id)
+    else:
+        return Response(response=json.dumps({"Error": "Some field is empty"}),
+                        status=400,
+                        mimetype='application/json')
 
 #-------------User Control----------------------#
 #Login

@@ -10,61 +10,65 @@
     </div>
     <div class="row">
         <div class="container">
-            <form action="/saveGame" method="POST">
+            <form action="/modifyGame" method="POST">
+                <input type="hidden" value="{{juego._id['$oid']}}" name="identificador" id="identificador">
                 <div class="form-group">
                     <label for="inputNombre" class="col-sm-3 control-label">Nombre</label>
                     <input type="text" class="form-control" name="inputNombre" id="inputNombre" value="{{ juego['nombre'] }}" required>
                 </div>
                 <div class="form-group">
                     <label for="inputDescripcion" class="col-sm-3 control-label">Descripción</label>
-                    <input type="text" class="form-control" name="inputDescripcion" id="inputDescripcion">
+                    <input type="text" class="form-control" name="inputDescripcion" id="inputDescripcion" value="{{ juego['descripcion'] }}">
                 </div>
                 <div class="form-group">
                     <label for="inputFechaInicio" class="col-sm-3 control-label">Fecha inicio</label>
-                    <input type="date" class="form-control" name="inputFechaInicio" id="inputFechaInicio">
+                    <input type="date" class="form-control" name="inputFechaInicio" id="inputFechaInicio" value="{{ juego['fechaInicio'] }}">
                 </div>
                 <div class="form-group">
                     <label for="inputFechaFin" class="col-sm-3 control-label">Fecha fin</label>
-                    <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin">
+                    <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin" value="{{ juego['fechaFin'] }}">
                 </div>
                 <h3>Área:</h3>
                 <div class="form-group">
                     <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
-                    <input type="number" class="form-control" name="inputCentro" id="inputCentro">
+                    <input type="number" class="form-control" name="inputCentro" id="inputCentro" value="{{ juego['centro'] }}">
                 </div>
                 <div class="form-group">
                     <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
-                    <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                    <input type="number" class="form-control" name="inputAncho" id="inputAncho" value="{{ juego['alto'] }}">
                 </div>
                 <div class="form-group">
                     <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
-                    <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                    <input type="number" class="form-control" name="inputAlto" id="inputAlto" value="{{ juego['ancho'] }}">
                 </div>
                 <h3>Tesoros:</h3>
-                <div class="form-group row">
-                    <label for="inputCoordenadaX1" class="col-sm-2 control-label">Coordenada X</label>
-                    <label for="inputCoordenadaY1" class="col-sm-10 control-label">Coordenada Y</label>
-                    <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputCoordenadaX1" id="inputCoordenadaX1">
+                <div id="nuevo_tesoro">
+                    {% for longitud in range(longitud) %}
+                    <div class="form-group row">
+                        <label for="inputCoordenadaX" class="col-sm-2 control-label" id="labelCoordenadaX{{loop.index}}">Coordenada X</label>
+                        <label for="inputCoordenadaY" class="col-sm-10 control-label" id="labelCoordenadaY{{loop.index}}">Coordenada Y</label>
+                        <div class="col-xs-2">
+                            <input type="number" class="form-control" name="inputCoordenadaX{{loop.index}}" id="inputCoordenadaX{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaX'] }}">
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="number" class="form-control" name="inputCoordenadaY{{loop.index}}" id="inputCoordenadaY{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaY'] }}">
+                        </div>
                     </div>
-                    <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputCoordenadaY1" id="inputCoordenadaY1">
-                    </div>
-                    <button type="button" class="add" onclick="add();">Añadir tesoro</button>
-                    <button type="button" class="remove" onclick="remove();">Eliminar tesoro</button>
+                    {% endfor %}
                 </div>
-                <div id="nuevo_tesoro"></div>
-                <input type="hidden" value=1 name="total_chq" id="total_chq">
+                <button type="button" class="add" onclick="add();">Añadir tesoro</button>
+                <button type="button" class="remove" onclick="remove();">Eliminar tesoro</button>
+                <input type="hidden" value={{longitud}} name="total_chq" id="total_chq">
                 <h3>Pistas:</h3>
                 <div class="form-group">
                     <label for="inputPista" class="col-sm-3 control-label">Descripción</label>
-                    <textarea class="form-control" name="inputPista" id="inputPista"></textarea>
+                    <textarea class="form-control" name="inputPista" id="inputPista">{{ juego['descripcionpista'] }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="inputImagen" class="col-sm-3 control-label">Imágen</label>
-                    <input type="file" class="form-control" name="inputImagen" id="inputImagen">
+                    <input type="file" class="form-control" name="inputImagen" id="inputImagen" value="{{ juego['imagen'] }}" multiple>
                 </div>
-                <button type="submit" class="btn btn-primary">Crear juego</button>
+                <button type="submit" class="btn btn-primary">Modificar juego</button>
             </form>
         </div>
     </div>

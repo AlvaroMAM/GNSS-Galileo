@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+{% block content %}
+<br/>
+<br/>
+<br/>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Registra un tesoro </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <form action="/saveTreasure" method="POST">
+                <h3>Introduce las coordenadas del tesoro que has encontrado:</h3>
+                <div class="form-group row">
+                    <input type="hidden" value="{{juego._id['$oid']}}" name="identificador" id="identificador">
+                    <label for="inputCoordenadaX1" class="col-sm-2 control-label">Coordenada X</label>
+                    <label for="inputCoordenadaY1" class="col-sm-10 control-label">Coordenada Y</label>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputCoordenadaX1" id="inputCoordenadaX1">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputCoordenadaY1" id="inputCoordenadaY1">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Comprobar</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
