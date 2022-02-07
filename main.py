@@ -152,6 +152,7 @@ def writeGame():
         nTesoros = request.form['total_chq']
         descripcionpista = request.form['inputPista']
         imagen = request.form['inputImagen']
+        print(imagen)
         creador = current_user.getEmail()
         list_juegos = juegosCollection.find()
         insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
@@ -333,10 +334,7 @@ def login():
             return Response(response=json.dumps({"Error": "Some field is empty"}),
                             status=400,
                             mimetype='application/json')
-<<<<<<< HEAD
 
-=======
->>>>>>> 2c19dbfceaad78db4497992ece3bde8593ba7c95
 #LOGOUT
 @app.route('/logout')
 def logout():
