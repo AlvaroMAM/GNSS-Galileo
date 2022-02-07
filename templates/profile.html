@@ -5,7 +5,6 @@
 <br/>
 
 <div class="row">
- 
 {% if user.userEmail %}
     <div class="row">
         <div class="col-lg-12 text-center">
@@ -36,92 +35,9 @@
                     </div>
                 </div>
                 {% endif %}
-        </div>
     </div>
-    <div class="row">
-        <div>
-            <label> Mis Juegos </label>
-            <input type="checkbox" checked data-toggle="toggle" data-onstyle="danger" onclick="showCreatorTable()">
-            <label> Mis Participaciones </label>
-            <input type="checkbox" checked data-toggle="toggle" data-onstyle="danger" onclick="showCompetitorTable()">
-        </div>
-        <div  class="table-responsive">
-            {% if user.misJuegos %}
-                <table id="misJuegos" class="table table-striped">
-                    <thead>
-                        <tr id="row">
-                            <th>Nombre</th>
-                            <th>Estado</th>
-                            <th>Fecha límite</th>
-                            <th>Participantes</th>
-                            <th>Detalles</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for juego in user.misJuegos %}
-                        <tr>
-                            <td>{{ juego["nombre"] }}</td>
-                            <td>{{ juego["estado"] }}</td>
-                            <td>{{ juego["fechaFin"] }}</td>
-                            <td>{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
-                            <td><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    
-                </table>
-            {% else %}
-                No Has Creado Ningún Juego
-            {% endif %}
-            {% if user.juegosParticipados %}
-            <table id="juegosParticipados" class="table table-striped" style="display: none;">
-                <thead>
-                    <tr id="row">
-                        <th>Nombre</th>
-                        <th>Creador</th>
-                        <th>Estado</th>
-                        <th>Fecha límite</th>
-                        <th>Participantes</th>
-                        <th>Detalles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for juego in user.juegosParticipados %}
-                    <tr>
-                        <td>{{ juego["nombre"] }}</td>
-                        <td>{{ juego["creador"] }}</td>
-                        <td>{{ juego["estado"] }}</td>
-                        <td>{{ juego["fecha_fin"] }}</td>
-                        <td>{{'0' if juego["participantes"] == None else juego["participantes"]|length}}</td>
-                        <td><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                
-            </table>
-        {% else %}
-            No te has unido a ningún juego
-        {% endif %}
-
-        </div>
-    </div>
+</div>
+</div>
 {% endif %}
-<script>
-    function showCompetitorTable () {
-        var x = document.getElementById("juegosParticipados");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-    function showCreatorTable() {
-        var x = document.getElementById("misJuegos");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-</script>
+
 {% endblock content %}
