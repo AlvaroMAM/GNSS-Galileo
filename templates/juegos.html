@@ -52,6 +52,8 @@
 					<th class="participantes">Participantes</th>
 					{% if verTodos %}
 						<th class="func2">Inscribirse</th>
+					{% else %}
+						<th class="func1">Detalles</th>
 					{% endif %}
 				</tr>
 			</thead>
@@ -65,6 +67,8 @@
 						<td class="participantes">{{'0' if juego["listaParticipantes"] == None else juego["listaParticipantes"]|length}}</td>
 						{% if verTodos %}
 							<td class="func1"><a href="./inscribir?_id={{ juego['_id'] }}"><button type="submit">Inscribirse</button></a></td>
+						{% else %}
+						<td class="func1"><a href="./detalles?_id={{ juego['_id'] }}"><button type="submit">Detalles</button></a></td>
 						{% endif %}
 					</tr>
 				{% endfor %}
