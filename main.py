@@ -299,20 +299,15 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    email = current_user.getEmail()
+    email = current_user.userEmail
     if email:
         response = juegosCollection.delete_many({'creador': email})
-        for juego in current_user.juegosParticipados:
-            for jugador in juego.listaParticipantes:
-                if(jugador.email == email):
-                    nuevos_participantes = juego.participantes.remove(jugador)
-                    juego_update = {
-                        'participantes' : nuevos_participantes
-                    }
-                    juegosCollection.update_one({'_id':juego.id},{'$set':juego_update})
+        juegosCollection.update_many({ "listaParticipantes":  { "$eq": email } }
+        , { "$pull": {"listaParticipantes": email} } )
         response = usersCollection.delete_one({'userEmail': email})
+
         if response:
-            currentUser.disconnect()
+            current_user.disconnect()
             return redirect('/')
         else:
             return redirect('/profile')
@@ -330,9 +325,6 @@ def profile():
         current_user.setEmail(user["userEmail"])
         current_user.setUserName(user["userName"])
         current_user.setIsAdmin(user["isAdmin"])
-        current_user.setJuegosParticipados(user["juegosParticipados"])
-        mygames = juegosCollection.find({'creador': user["userEmail"]})
-        current_user.setMisJuegos(mygames)
         return render_template("profile.html",user=current_user)
     else:
         return redirect('/')
