@@ -229,15 +229,16 @@ def modifyGame():
 # Resetear un juego
 @app.route('/resetjuego', methods=['GET','POST'])
 def resetGame():
-    id=request.values.get("_id")
-    juegosCollection.update_one({"_id":ObjectId(id)},{ "$set" :{"listaParticipantes":[]} })
-    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
-    juego_json = json.loads(current_juego)
-    msg='¿Estás seguro?' 
-    title='Advertencia'
-    if easygui.ccbox(msg,title):
-        response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$set": { "comentarios" : [],
-                                                                        "tesoros.$[].encontrado" : False,
+    if current_user.userEmail:
+        id=request.values.get("_id")
+        juegosCollection.update_one({"_id":ObjectId(id)},{ "$set" :{"listaParticipantes":[]} })
+        current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+        juego_json = json.loads(current_juego)
+        msg='¿Estás seguro?' 
+        title='Advertencia'
+        if easygui.ccbox(msg,title):
+            response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$set": { "comentarios" : [],
+                                                                            "tesoros.$[].encontrado" : False,
                                                                         "tesoros.$[].localizadoPor" : ""}})
     return redirect('detalles?_id='+id)
 
@@ -245,13 +246,13 @@ def resetGame():
 # Borrar un juego
 @app.route('/borrarjuego', methods=['GET','POST'])
 def deleteGame():
-    id=request.values.get("_id")
-    msg='¿Estás seguro?' 
-    title='Advertencia'
-    if easygui.ccbox(msg,title):
-        response = juegosCollection.delete_one( {"_id": ObjectId(id) })
-
-    return redirect('detalles?_id='+id)
+    if current_user.userEmail:
+        id=request.values.get("_id")
+        msg='¿Estás seguro?' 
+        title='Advertencia'
+        if easygui.ccbox(msg,title):
+            response = juegosCollection.delete_one( {"_id": ObjectId(id) })
+    return redirect('/juegos')
 
 # Registrar un tesoro
 @app.route('/saveTreasure', methods=['GET','POST'])

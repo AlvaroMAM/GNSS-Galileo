@@ -24,10 +24,10 @@
 			  image: new ol.style.Circle({
 				radius: 6,
 				fill: new ol.style.Fill({
-				  color: '#f00f07'
+				  color: 'red'
 				}),
 				stroke: new ol.style.Stroke({
-				  color: 'red',
+				  color: 'blue',
 				  width: 2
 				})
 			  })
@@ -118,7 +118,7 @@
 						<td>{{ i.localizadoPor }}</td>
 					</tr>
 					<script>
-					addMarker({{ 36.7181255 }},{{ -4.4190425 }})
+					addMarker({{ i.coordenadaX }},{{ i.coordenadaY }})
 					</script>
 				{% endfor %}
 			</tbody>
