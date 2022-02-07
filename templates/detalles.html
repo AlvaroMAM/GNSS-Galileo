@@ -75,7 +75,7 @@
 		</div>
 	</div>
 	</br>
-	<a class="btn btn-primary py-2 ml-2" href="https://twitter.com/intent/tweet?text=¿ Quieres jugar conmigo a la Caza del Tesoro   {{ juego[0].nombre }} ? Únete en https://huntingtreasureumapp.herokuapp.com/ !!!"><i class="bi bi-twitter"></i> Compartir Juego en Twitter</a>
+	<a class="btn btn-primary py-2 ml-2" href="https://twitter.com/intent/tweet?text=¿ Quieres jugar conmigo a la Caza del Tesoro {{ juego[0].nombre }} ? Únete en https://huntingtreasureumapp.herokuapp.com/ !!!"><i class="bi bi-twitter"></i> Compartir Juego en Twitter</a>
 	</br>
 
 
@@ -188,9 +188,11 @@
 						{% endif %}
 						<td>{{ i.localizadoPor }}</td>
 					</tr>
+					{% if i.encontrado %}
 					<script>
 					addMarker({{ i.coordenadaX }},{{ i.coordenadaY }})
 					</script>
+					{% endif %}
 				{% endfor %}
 			</tbody>
 		</table>

@@ -23,8 +23,6 @@ python-dateutil==2.8.2
 requests==2.27.1
 six==1.16.0
 srv==1.1.0
-Twisted==21.7.0
-twisted-iocpsupport==1.0.2
 typing_extensions==4.0.1
 urllib3==1.26.8
 Werkzeug==2.0.2

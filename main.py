@@ -151,15 +151,13 @@ def writeGame():
         ancho = request.form['inputAncho']
         nTesoros = request.form['total_chq']
         descripcionpista = request.form['inputPista']
-        imagen = request.form['inputImagen']
-        print(imagen)
         creador = current_user.getEmail()
         list_juegos = juegosCollection.find()
         insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
             'fechaFin': fechaFin,'centro': {'coordenadaX': centroX, 'coordenadaY': centroY}, 'alto': alto, 'ancho': ancho, 'tesoros': [],
-            'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo", 'listaParticipantes': [], 'comentarios': []}
+            'descripcionpista':descripcionpista,'imagen':"", 'estado':"Activo", 'listaParticipantes': [], 'comentarios': []}
 
-        if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista and imagen:
+        if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista:
             response = juegosCollection.insert_one(insercion)
             usersCollection.update_one( {"userEmail": creador}, 
                                         {"$push": {"juegosParticipados": insercion }} )
@@ -199,14 +197,13 @@ def modifyGame():
         ancho = request.form['inputAncho']
         nTesoros = request.form['total_chq']
         descripcionpista = request.form['inputPista']
-        imagen = request.form['inputImagen']
         creador = current_user.getEmail()
         list_juegos = juegosCollection.find()
         insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
             'fechaFin': fechaFin,'centro': {'coordenadaX': centroX, 'coordenadaY': centroY}, 'alto': alto, 'ancho': ancho, 'tesoros': [],
-            'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
+            'descripcionpista':descripcionpista,'imagen':"", 'estado':"Activo"}
 
-        if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista and imagen:
+        if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista:
             response = juegosCollection.update_one({"_id": ObjectId(id) }, {"$set": insercion})
             for i in range(1, int(nTesoros)+1):
                 coordenadaX = request.form['inputCoordenadaX'+str(i)]
@@ -347,30 +344,19 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    if current_user.userEmail:
-        email = current_user.getEmail()
-        if email:
-            response = juegosCollection.delete_many({'creador': email})
-            for juego in current_user.juegosParticipados:
-                for jugador in juego.listaParticipantes:
-                    if(jugador.email == email):
-                        nuevos_participantes = juego.participantes.remove(jugador)
-                        juego_update = {
-                            'participantes' : nuevos_participantes
-                        }
-                        juegosCollection.update_one({'_id':juego.id},{'$set':juego_update})
-            response = usersCollection.delete_one({'userEmail': email})
-            if response:
-                currentUser.disconnect()
-                return redirect('/')
-            else:
-                return redirect('/profile')
+    email = current_user.userEmail
+    if email:
+        response = juegosCollection.delete_many({'creador': email})
+        juegosCollection.update_many({ "listaParticipantes":  { "$eq": email } }
+        , { "$pull": {"listaParticipantes": email} } )
+        response = usersCollection.delete_one({'userEmail': email})
+        if response:
+            current_user.disconnect()
+            return redirect('/')
         else:
-            return Response(response=json.dumps({"Error": "Some field is empty"}),
-                            status=400,
-                            mimetype='application/json')
+            return redirect('/profile')
     else:
-        return redirect("/")
+        return redirect ('/')
 
 
 #Datos del Perfil

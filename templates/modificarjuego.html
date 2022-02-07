@@ -33,20 +33,20 @@
                     <label for="inputCentroX" class="col-sm-2 control-label">Centro (Coordenada X)</label>
                     <label for="inputCentroY" class="col-sm-10 control-label">Centro (Coordenada Y)</label>
                     <div class="col-xs-2">
-                        <input type="number" step="any" class="form-control" name="inputCentroX" id="inputCentroX">
+                        <input type="number" step="any" class="form-control" name="inputCentroX" id="inputCentroX" value="{{juego['centro'].coordenadaX}}">
                     </div>
                     <div class="col-xs-2">
-                        <input type="number" step="any" class="form-control" name="inputCentroY" id="inputCentroY">
+                        <input type="number" step="any" class="form-control" name="inputCentroY" id="inputCentroY" value="{{juego['centro'].coordenadaY}}"> 
                     </div>
                 </div>
                 <div class="form-group row"> 
                     <label for="inputAncho" class="col-sm-2 control-label">Ancho</label>
                     <label for="inputAlto" class="col-sm-10 control-label">Alto</label>
                     <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                        <input type="number" class="form-control" name="inputAncho" id="inputAncho" value="{{juego['ancho']}}">
                     </div>
                     <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                        <input type="number" class="form-control" name="inputAlto" id="inputAlto" value="{{juego['alto']}}">
                     </div>
                 </div>
                 <h3>Tesoros:</h3>
@@ -71,10 +71,6 @@
                 <div class="form-group">
                     <label for="inputPista" class="col-sm-3 control-label">Descripción</label>
                     <textarea class="form-control" name="inputPista" id="inputPista">{{ juego['descripcionpista'] }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="inputImagen" class="col-sm-3 control-label">Imágen</label>
-                    <input type="file" class="form-control" name="inputImagen" id="inputImagen" value="{{ juego['imagen'] }}" multiple>
                 </div>
                 <button type="submit" class="btn btn-primary">Modificar juego</button>
             </form>
