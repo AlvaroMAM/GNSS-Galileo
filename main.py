@@ -143,7 +143,7 @@ def writeGame():
             juegosCollection.update_one( {"_id": response.inserted_id },
                                     {"$push":{"tesoros":{'coordenadaX':coordenadaX, 'coordenadaY': coordenadaY, 'encontrado': False}}})
         if response:
-            return render_template('juegos.html',juegos=list_juegos,user=current_user)
+            return redirect('/juegos')
             """Response(response=json.dumps({"Message": "Correct insertion"}),
                         status=200,
                         mimetype='application/json')"""
@@ -297,11 +297,11 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    email = request.form['userEmail']
+    email = current_user.getEmail()
     if email:
         response = juegosCollection.delete_many({'creador': email})
         for juego in current_user.juegosParticipados:
-            for jugador in juego.participantes:
+            for jugador in juego.listaParticipantes:
                 if(jugador.email == email):
                     nuevos_participantes = juego.participantes.remove(jugador)
                     juego_update = {
