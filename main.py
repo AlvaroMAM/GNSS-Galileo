@@ -49,15 +49,6 @@ def myGames ():
 # Detalles del juego
 @app.route("/detalles")
 def detalles ():
-<<<<<<< HEAD
-    id=request.values.get("_id")
-    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
-    juego_json = json.loads(current_juego)
-    listaTesoros = juego_json[0]['tesoros']
-    comentarios = juego_json[0]['comentarios']
-    print(juego_json[0]['descripcionpista'])
-    return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros, comentario = comentarios)
-=======
     if current_user.userEmail:
         id=request.values.get("_id")
         current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
@@ -68,7 +59,6 @@ def detalles ():
         return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros, comentario = comentarios)
     else:
         return redirect("/")
->>>>>>> 722c605b3678717fbfa1747720701b8f1528373a
 
 # Inscripcion al juego
 @app.route("/inscribir")
@@ -294,7 +284,6 @@ def writeTreasure():
 #Login
 @app.route('/login', methods=['POST'])
 def login():
-    if current_user.userEmail:
         #recibir datos de google oauth
         userEmail = request.form["userEmail"]
         userName = request.form["userName"]
@@ -330,8 +319,6 @@ def login():
             return Response(response=json.dumps({"Error": "Some field is empty"}),
                             status=400,
                             mimetype='application/json')
-    else:
-        return redirect("/")
 #LOGOUT
 @app.route('/logout')
 def logout():
