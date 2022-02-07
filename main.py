@@ -250,7 +250,7 @@ def deleteGame():
     if easygui.ccbox(msg,title):
         response = juegosCollection.delete_one( {"_id": ObjectId(id) })
 
-    return redirect('detalles?_id='+id)
+    return redirect('/juegos')
 
 # Registrar un tesoro
 @app.route('/saveTreasure', methods=['GET','POST'])
@@ -333,10 +333,6 @@ def login():
             return Response(response=json.dumps({"Error": "Some field is empty"}),
                             status=400,
                             mimetype='application/json')
-<<<<<<< HEAD
-
-=======
->>>>>>> 2c19dbfceaad78db4497992ece3bde8593ba7c95
 #LOGOUT
 @app.route('/logout')
 def logout():
