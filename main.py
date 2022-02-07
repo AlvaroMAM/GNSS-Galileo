@@ -195,6 +195,20 @@ def modifyGame():
                         status=400,
                         mimetype='application/json')
 
+# Resetear un juego
+@app.route('/resetjuego', methods=['GET','POST'])
+def resetGame():
+    id=request.values.get("_id")
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
+    msg='¿Estás seguro?' 
+    title='Advertencia'
+    if easygui.ccbox(msg,title):
+        response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$set": { "comentarios" : [],
+                                                                        "tesoros.$[].encontrado" : False,
+                                                                        "tesoros.$[].localizadoPor" : ""}})
+    return redirect('detalles?_id='+id)
+
 # Registrar un tesoro
 @app.route('/saveTreasure', methods=['GET','POST'])
 def writeTreasure():

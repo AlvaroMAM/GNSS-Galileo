@@ -80,7 +80,13 @@
 
 	{% if user.isAdmin %}
 	</br>
-	<a href="/modificarjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Modificar juego</button></a>
+	<div class="col-md-2">
+		<a href="/modificarjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Modificar juego</button></a>
+	</div>	
+	<div class="col-md-2">
+		<a href="/resetjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Resetear juego</button></a>
+	</div>
+	</br>
 	</br>
 	<h3>Tesoros :</h3>
 	<div class="table-responsive">
@@ -114,8 +120,10 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="col-md-2">
+		<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</div>
 	</br>
-	<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
 	</br>
 	<h3>Comentarios del juego:</h3>
 	<div class="container">
@@ -133,13 +141,15 @@
 	</div>
 	<form action="/saveComentario" method="POST">
 		<div class="form-group">
-		<p></p>
-		<p></p>
-		<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
-			<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
-			<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
+			<p></p>
+			<p></p>
+			<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
+				<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
+				<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
 		</div>
-		<button type="submit" class="btn btn-primary">Enviar comentario</button>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-primary">Enviar comentario</button>
+		</div>
 	</form>
 	{% else %}
 	</br>
@@ -171,8 +181,10 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="col-md-2">
+		<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</div>
 	</br>
-	<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
 	</br>
 	<h3>Comentarios del juego:</h3>
 	<div class="container">
@@ -190,13 +202,15 @@
 	</div>
 	<form action="/saveComentario" method="POST">
 		<div class="form-group">
-		<p></p>
-		<p></p>
-		<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
-			<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
-			<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
+			<p></p>
+			<p></p>
+			<input type="hidden" value="{{juego[0]._id['$oid']}}" name="identificador" id="identificador">
+				<label for="inputComentario" class="col-sm-12">Escribe tu comentario aquí</label>
+				<textarea class="form-control" name="inputComentario" id="inputComentario" rows="3" cols="5"></textarea>
 		</div>
-		<button type="submit" class="btn btn-primary">Enviar comentario</button>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-primary">Enviar comentario</button>
+		</div>
 	</form>
 	{% endif %}
 
