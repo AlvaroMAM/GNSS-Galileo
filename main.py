@@ -10,7 +10,6 @@ from bson import json_util
 import aux2 as aux
 import base64
 from datetime import date
-import easygui
 
 app = Flask(__name__)
 
@@ -231,10 +230,7 @@ def resetGame():
         juegosCollection.update_one({"_id":ObjectId(id)},{ "$set" :{"listaParticipantes":[]} })
         current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
         juego_json = json.loads(current_juego)
-        msg='¿Estás seguro?' 
-        title='Advertencia'
-        if easygui.ccbox(msg,title):
-            response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$set": { "comentarios" : [],
+        response = juegosCollection.update_one( {"_id": ObjectId(id) },{"$set": { "comentarios" : [],
                                                                             "tesoros.$[].encontrado" : False,
                                                                         "tesoros.$[].localizadoPor" : ""}})
     return redirect('detalles?_id='+id)
@@ -245,10 +241,7 @@ def resetGame():
 def deleteGame():
     if current_user.userEmail:
         id=request.values.get("_id")
-        msg='¿Estás seguro?' 
-        title='Advertencia'
-        if easygui.ccbox(msg,title):
-            response = juegosCollection.delete_one( {"_id": ObjectId(id) })
+        response = juegosCollection.delete_one( {"_id": ObjectId(id) })
     return redirect('/juegos')
 
 # Registrar un tesoro
@@ -268,24 +261,14 @@ def writeTreasure():
             for i in listaTesoros:
                 if i['coordenadaX']==coordenadax and i['coordenadaY']==coordenaday:
                     if not(i['encontrado']):
-                        easygui.msgbox(msg='Enhorabuena has encontrado un tesoro!!!!', 
-                            title='Tesoro encontrado', 
-                            ok_button=('Aceptar'))
                         juegosCollection.update_one( {"_id": ObjectId(id), "tesoros.coordenadaX": i['coordenadaX'], "tesoros.coordenadaY": i['coordenadaY']},
                                                             {"$set": {"tesoros.$.encontrado" : True}})
                         juegosCollection.update_one( {"_id": ObjectId(id), "tesoros.coordenadaX": i['coordenadaX'], "tesoros.coordenadaY": i['coordenadaY']},
                                                             {"$set": {"tesoros.$.localizadoPor" : nombre}})                                                        
                         break
                     else:
-                        easygui.msgbox(msg='Este tesoro ya fue encontrado por otra persona antes', 
-                            title='Tesoro encontrado', 
-                            ok_button=('Aceptar'))
                         break
                 contador += 1
-                if contador==len(listaTesoros):
-                    easygui.msgbox(msg='Lo sentimos, en las coordenadas introducidas no había ningún tesoro. Sigue buscando!', 
-                        title='Tesoro no encontrado', 
-                        ok_button=('Aceptar'))
             return redirect('detalles?_id='+id)
         else:
             return Response(response=json.dumps({"Error": "Some field is empty"}),

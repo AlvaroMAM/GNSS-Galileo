@@ -6,7 +6,6 @@ click==8.0.3
 colorama==0.4.4
 constantly==15.1.0
 dnspython==2.2.0
-easygui==0.98.2
 Flask==2.0.2
 gunicorn
 hyperlink==21.0.0
