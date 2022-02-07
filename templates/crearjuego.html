@@ -28,27 +28,35 @@
                     <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin">
                 </div>
                 <h3>Área:</h3>
-                <div class="form-group">
-                    <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
-                    <input type="number" class="form-control" name="inputCentro" id="inputCentro">
+                <div class="form-group row"> 
+                    <label for="inputCentroX" class="col-sm-2 control-label">Centro (Coordenada X)</label>
+                    <label for="inputCentroY" class="col-sm-10 control-label">Centro (Coordenada Y)</label>
+                    <div class="col-xs-2">
+                        <input type="number" step="any" class="form-control" name="inputCentroX" id="inputCentroX">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" step="any" class="form-control" name="inputCentroY" id="inputCentroY">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
-                    <input type="number" class="form-control" name="inputAncho" id="inputAncho">
-                </div>
-                <div class="form-group">
-                    <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
-                    <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                <div class="form-group row"> 
+                    <label for="inputAncho" class="col-sm-2 control-label">Ancho</label>
+                    <label for="inputAlto" class="col-sm-10 control-label">Alto</label>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                    </div>
                 </div>
                 <h3>Tesoros:</h3>
                 <div class="form-group row">
                     <label for="inputCoordenadaX1" class="col-sm-2 control-label">Coordenada X</label>
                     <label for="inputCoordenadaY1" class="col-sm-10 control-label">Coordenada Y</label>
                     <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputCoordenadaX1" id="inputCoordenadaX1">
+                        <input type="number" step=any class="form-control" name="inputCoordenadaX1" id="inputCoordenadaX1">
                     </div>
                     <div class="col-xs-2">
-                        <input type="number" class="form-control" name="inputCoordenadaY1" id="inputCoordenadaY1">
+                        <input type="number" step=any class="form-control" name="inputCoordenadaY1" id="inputCoordenadaY1">
                     </div>
                     <button type="button" class="add" onclick="add();">Añadir tesoro</button>
                     <button type="button" class="remove" onclick="remove();">Eliminar tesoro</button>
@@ -76,10 +84,10 @@
                     "<label for='inputCoordenadaX' class='col-sm-2 control-label' id='labelCoordenadaX" + new_chq_no + "'>Coordenada X</label>" +
                     "<label for='inputCoordenadaY' class='col-sm-10 control-label' id='labelCoordenadaY" + new_chq_no + "'>Coordenada Y</label>" +
                     "<div class='col-xs-2'>" +
-                        "<input type='number' class='form-control' name='inputCoordenadaX" + new_chq_no + "' id='inputCoordenadaX" + new_chq_no + "'>" +
+                        "<input type='number' step=any class='form-control' name='inputCoordenadaX" + new_chq_no + "' id='inputCoordenadaX" + new_chq_no + "'>" +
                     "</div>" +
                     "<div class='col-xs-2'>" +
-                        "<input type='number' class='form-control' name='inputCoordenadaY" + new_chq_no + "' id='inputCoordenadaY" + new_chq_no + "'>" +
+                        "<input type='number' step=any class='form-control' name='inputCoordenadaY" + new_chq_no + "' id='inputCoordenadaY" + new_chq_no + "'>" +
                     "</div>" +
                     "</div>";
 
