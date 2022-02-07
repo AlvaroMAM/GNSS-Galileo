@@ -222,6 +222,7 @@ def modifyGame():
                             mimetype='application/json')
     else:
         return redirect("/")
+
 # Resetear un juego
 @app.route('/resetjuego', methods=['GET','POST'])
 def resetGame():
