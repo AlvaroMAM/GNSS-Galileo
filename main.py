@@ -299,16 +299,6 @@ def logout():
 def delete():
     email = current_user.userEmail
     if email:
-        
-        """for juego in current_user.juegosParticipados:
-            for jugador in juego.listaParticipantes:
-                if(jugador.email == email):
-                    nuevos_participantes = juego.participantes.remove(jugador)
-                    juego_update = {
-                        'participantes' : nuevos_participantes
-                    }
-                    juegosCollection.update_one({'_id':juego.id},{'$set':juego_update})
-        """
         response = juegosCollection.delete_many({'creador': email})
         juegosCollection.update_many({ "listaParticipantes":  { "$eq": email } }
         , { "$pull": {"listaParticipantes": email} } )
