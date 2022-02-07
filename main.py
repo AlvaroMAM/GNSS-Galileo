@@ -50,7 +50,7 @@ def detalles ():
     juego_json = json.loads(current_juego)
     listaTesoros = juego_json[0]['tesoros']
     comentarios = juego_json[0]['comentarios']
-    print(juego_json[0]['comentarios'])
+    print(juego_json[0]['descripcionpista'])
     return render_template('detalles.html', juego=juego_json, user=current_user, tesoro = listaTesoros, comentario = comentarios)
 
 # Inscripcion al juego
