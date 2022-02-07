@@ -228,6 +228,8 @@ def modifyGame():
 def resetGame():
     id=request.values.get("_id")
     juegosCollection.update_one({"_id":ObjectId(id)},{ "$set" :{"listaParticipantes":[]} })
+    current_juego = json_util.dumps(list(juegosCollection.find({"_id":ObjectId(id)})))
+    juego_json = json.loads(current_juego)
     msg='¿Estás seguro?' 
     title='Advertencia'
     if easygui.ccbox(msg,title):
@@ -294,7 +296,6 @@ def writeTreasure():
 #Login
 @app.route('/login', methods=['POST'])
 def login():
-    if current_user.userEmail:
         #recibir datos de google oauth
         userEmail = request.form["userEmail"]
         userName = request.form["userName"]
@@ -330,8 +331,7 @@ def login():
             return Response(response=json.dumps({"Error": "Some field is empty"}),
                             status=400,
                             mimetype='application/json')
-    else:
-        return redirect("/")
+
 #LOGOUT
 @app.route('/logout')
 def logout():
