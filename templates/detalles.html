@@ -24,10 +24,10 @@
 			  image: new ol.style.Circle({
 				radius: 6,
 				fill: new ol.style.Fill({
-				  color: '#3399CC'
+				  color: '#f00f07'
 				}),
 				stroke: new ol.style.Stroke({
-				  color: '#fff',
+				  color: 'red',
 				  width: 2
 				})
 			  })
@@ -87,6 +87,9 @@
 	<div class="col-md-2">
 		<a href="/resetjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Resetear juego</button></a>
 	</div>
+	<div class="col-md-2">
+		<a href="/borrarjuego?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Borrar juego</button></a>
+	</div>
 	</br>
 	</br>
 	<h3>Tesoros :</h3>
@@ -115,7 +118,7 @@
 						<td>{{ i.localizadoPor }}</td>
 					</tr>
 					<script>
-					addMarker({{ i.coordenadaX }},{{ i.coordenadaY }})
+					addMarker({{ 36.7181255 }},{{ -4.4190425 }})
 					</script>
 				{% endfor %}
 			</tbody>
@@ -123,6 +126,16 @@
 	</div>
 	<div class="col-md-2">
 		<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</div>
+	</br>
+	</br>
+	<h3>Pistas para encontrar los tesoros :</h3>
+	<div class="container">
+        <div class="row">
+				<div class="col-sm-7 col-md-7 col-12 pb-4">
+						<p>{{ juego[0].descripcionpista }}</p>
+				</div>	
+		</div>
 	</div>
 	</br>
 	</br>
@@ -184,6 +197,16 @@
 	</div>
 	<div class="col-md-2">
 		<a href="/registrartesoro?_id={{ juego[0]._id['$oid'] }}"><button type="submit" class=" btn btn-primary">Registrar tesoro</button></a>
+	</div>
+	</br>
+	</br>
+	<h3>Pistas para encontrar los tesoros :</h3>
+	<div class="container">
+		<div class="row">
+				<div class="col-sm-7 col-md-7 col-12 pb-4">
+						<p>{{ juego[0].descripcionpista }}</p>
+				</div>	
+		</div>
 	</div>
 	</br>
 	</br>
