@@ -29,17 +29,25 @@
                     <input type="date" class="form-control" name="inputFechaFin" id="inputFechaFin" value="{{ juego['fechaFin'] }}">
                 </div>
                 <h3>Área:</h3>
-                <div class="form-group">
-                    <label for="inputCentro" class="col-sm-3 control-label">Centro</label>
-                    <input type="number" class="form-control" name="inputCentro" id="inputCentro" value="{{ juego['centro'] }}">
+                <div class="form-group row"> 
+                    <label for="inputCentroX" class="col-sm-2 control-label">Centro (Coordenada X)</label>
+                    <label for="inputCentroY" class="col-sm-10 control-label">Centro (Coordenada Y)</label>
+                    <div class="col-xs-2">
+                        <input type="number" step="any" class="form-control" name="inputCentroX" id="inputCentroX">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" step="any" class="form-control" name="inputCentroY" id="inputCentroY">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputAncho" class="col-sm-3 control-label">Ancho</label>
-                    <input type="number" class="form-control" name="inputAncho" id="inputAncho" value="{{ juego['alto'] }}">
-                </div>
-                <div class="form-group">
-                    <label for="inputAlto" class="col-sm-3 control-label">Alto</label>
-                    <input type="number" class="form-control" name="inputAlto" id="inputAlto" value="{{ juego['ancho'] }}">
+                <div class="form-group row"> 
+                    <label for="inputAncho" class="col-sm-2 control-label">Ancho</label>
+                    <label for="inputAlto" class="col-sm-10 control-label">Alto</label>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputAncho" id="inputAncho">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" name="inputAlto" id="inputAlto">
+                    </div>
                 </div>
                 <h3>Tesoros:</h3>
                 <div id="nuevo_tesoro">
@@ -48,10 +56,10 @@
                         <label for="inputCoordenadaX" class="col-sm-2 control-label" id="labelCoordenadaX{{loop.index}}">Coordenada X</label>
                         <label for="inputCoordenadaY" class="col-sm-10 control-label" id="labelCoordenadaY{{loop.index}}">Coordenada Y</label>
                         <div class="col-xs-2">
-                            <input type="number" class="form-control" name="inputCoordenadaX{{loop.index}}" id="inputCoordenadaX{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaX'] }}">
+                            <input type="number" step=any  class="form-control" name="inputCoordenadaX{{loop.index}}" id="inputCoordenadaX{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaX'] }}">
                         </div>
                         <div class="col-xs-2">
-                            <input type="number" class="form-control" name="inputCoordenadaY{{loop.index}}" id="inputCoordenadaY{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaY'] }}">
+                            <input type="number" step=any  class="form-control" name="inputCoordenadaY{{loop.index}}" id="inputCoordenadaY{{loop.index}}" value="{{ juego['tesoros'][loop.index0]['coordenadaY'] }}">
                         </div>
                     </div>
                     {% endfor %}
@@ -80,10 +88,10 @@
                     "<label for='inputCoordenadaX' class='col-sm-2 control-label' id='labelCoordenadaX" + new_chq_no + "'>Coordenada X</label>" +
                     "<label for='inputCoordenadaY' class='col-sm-10 control-label' id='labelCoordenadaY" + new_chq_no + "'>Coordenada Y</label>" +
                     "<div class='col-xs-2'>" +
-                        "<input type='number' class='form-control' name='inputCoordenadaX" + new_chq_no + "' id='inputCoordenadaX" + new_chq_no + "'>" +
+                        "<input type='number' step=any class='form-control' name='inputCoordenadaX" + new_chq_no + "' id='inputCoordenadaX" + new_chq_no + "'>" +
                     "</div>" +
                     "<div class='col-xs-2'>" +
-                        "<input type='number' class='form-control' name='inputCoordenadaY" + new_chq_no + "' id='inputCoordenadaY" + new_chq_no + "'>" +
+                        "<input type='number' step=any class='form-control' name='inputCoordenadaY" + new_chq_no + "' id='inputCoordenadaY" + new_chq_no + "'>" +
                     "</div>" +
                     "</div>";
 

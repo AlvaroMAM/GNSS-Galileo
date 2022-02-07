@@ -121,7 +121,8 @@ def writeGame():
     descripcion = request.form['inputDescripcion']
     fechaInicio = request.form['inputFechaInicio']
     fechaFin =  request.form['inputFechaFin']
-    centro = request.form['inputCentro']
+    centroX = request.form['inputCentroX']
+    centroY = request.form['inputCentroY']
     alto = request.form['inputAlto']
     ancho = request.form['inputAncho']
     nTesoros = request.form['total_chq']
@@ -130,10 +131,10 @@ def writeGame():
     creador = current_user.getEmail()
     list_juegos = juegosCollection.find()
     insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
-         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
+         'fechaFin': fechaFin,'centro': {'coordenadaX': centroX, 'coordenadaY': centroY}, 'alto': alto, 'ancho': ancho, 'tesoros': [],
          'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo", 'listaParticipantes': [], 'comentarios': []}
 
-    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
+    if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista and imagen:
         response = juegosCollection.insert_one(insercion)
         usersCollection.update_one( {"userEmail": creador}, 
                                     {"$push": {"juegosParticipados": insercion }} )
@@ -165,7 +166,8 @@ def modifyGame():
     descripcion = request.form['inputDescripcion']
     fechaInicio = request.form['inputFechaInicio']
     fechaFin =  request.form['inputFechaFin']
-    centro = request.form['inputCentro']
+    centroX = request.form['inputCentroX']
+    centroY = request.form['inputCentroY']
     alto = request.form['inputAlto']
     ancho = request.form['inputAncho']
     nTesoros = request.form['total_chq']
@@ -174,10 +176,10 @@ def modifyGame():
     creador = current_user.getEmail()
     list_juegos = juegosCollection.find()
     insercion = {'creador': creador,'nombre':nombre, 'descripcion': descripcion, 'fechaInicio': fechaInicio,
-         'fechaFin': fechaFin,'centro':centro, 'alto': alto, 'ancho': ancho, 'tesoros': [],
+         'fechaFin': fechaFin,'centro': {'coordenadaX': centroX, 'coordenadaY': centroY}, 'alto': alto, 'ancho': ancho, 'tesoros': [],
          'descripcionpista':descripcionpista,'imagen':imagen, 'estado':"Activo"}
 
-    if nombre and descripcion and fechaInicio and fechaFin and centro and alto and ancho and descripcionpista and imagen:
+    if nombre and descripcion and fechaInicio and fechaFin and centroX and centroY and alto and ancho and descripcionpista and imagen:
         response = juegosCollection.update_one({"_id": ObjectId(id) }, {"$set": insercion})
         for i in range(1, int(nTesoros)+1):
             coordenadaX = request.form['inputCoordenadaX'+str(i)]
